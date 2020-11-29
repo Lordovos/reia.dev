@@ -5,7 +5,10 @@ $dark-gray: #222;
 $abyssal-gray: #080808;
 $twitter-blue: #1da1f2;
 $fiery-coral: #ff424d;
+$success-green: #31e831;
 $error-red: #e83131;
+$warning-yellow: #e5e200;
+$info-blue: #4ca8ff;
 
 /* Mixins. */
 @mixin reset-list {
@@ -62,6 +65,11 @@ a {
         color: #fff;
     }
 }
+article {
+    p {
+        margin-bottom: 1rem;
+    }
+}
 /* Layout rulesets. */
 .container {
     display: flex;
@@ -76,6 +84,29 @@ a {
 }
 .desktop-text {
     display: none;
+}
+/* Alert rulesets for flash messages. */
+.alert {
+    border: 1px solid $medium-gray;
+    border-radius: 0.25rem;
+    padding: 0.5rem 1rem;
+    margin-bottom: 0.5rem;
+}
+.alert-success {
+    border-color: $success-green;
+    color: $success-green;
+}
+.alert-error {
+    border-color: $error-red;
+    color: $error-red;
+}
+.alert-warning {
+    border-color: $warning-yellow;
+    color: $warning-yellow;
+}
+.alert-info {
+    border-color: $info-blue;
+    color: $info-blue;
 }
 /* Header navigation rulesets for mobile. */
 .nav {
@@ -166,7 +197,7 @@ label {
     margin-bottom: 0.5rem;
 }
 /* User-defined form rulesets for mobile. */
-.form-checkbox-mask {
+.form-checkbox-hide {
     display: none;
 }
 .form-checkbox-label {
@@ -182,7 +213,7 @@ label {
 .form-checkbox-label-divider {
     display: none;
 }
-.form-spacer {
+.form-group {
     margin-bottom: 1rem;
 }
 .form-button-list {

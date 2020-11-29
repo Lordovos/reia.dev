@@ -12,6 +12,11 @@
     <body class="container">
         {{ include("header.twig") }}
         <main>
+            {% if flash|length > 0 %}
+                {% for message in flash %}
+                    <p class="alert alert-{{ message.type }}"><i class="las la-{{ message.icon }}"></i> {{ message.text }}</p>
+                {% endfor %}
+            {% endif %}
             {% block content %}{% endblock %}
         </main>
         {{ include("footer.twig") }}

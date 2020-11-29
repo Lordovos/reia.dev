@@ -1,6 +1,9 @@
 # Composer
 vendor/
 
+# dotenv
+.env
+
 # Sass
 .sass-cache/
 *.css.map
