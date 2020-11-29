@@ -1,0 +1,20 @@
+{% extends "base.twig" %}
+
+{% block content %}
+    <form action="/login" method="post">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+        <div class="form-group">
+            <label for="input-username">Username</label>
+            <input type="text" name="username" id="input-username" size="40" value="{{ form_input ? form_input.username : null }}" required>
+        </div>
+        <div>
+            <label for="input-password">Password</label>
+            <input type="password" name="password" id="input-password" size="40" required>
+        </div>
+        <hr>
+        <div class="form-button-list">
+            <button type="submit">Log In</button>
+            <p class="form-button-cancel"><a href="/"><i class="las la-times"></i> <span class="desktop-text">Cancel</span></a></p>
+        </div>
+    </form>
+{% endblock %}

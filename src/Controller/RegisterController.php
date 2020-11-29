@@ -4,10 +4,10 @@ declare(strict_types=1);
 namespace ReiaDev\Controller;
 
 class RegisterController extends Controller {
-    private \ReiaDev\CSRFToken $csrfToken;
     const USERNAME_MIN_LENGTH = 2;
     const USERNAME_MAX_LENGTH = 24;
     const PASSWORD_MIN_LENGTH = 8;
+    private \ReiaDev\CSRFToken $csrfToken;
 
     public function __construct(\ReiaDev\Model\Model $model, \Twig\Environment $twig, \ReiaDev\Flash $flash, \ReiaDev\CSRFToken $csrfToken) {
         parent::__construct($model, $twig, $flash);
@@ -38,7 +38,9 @@ class RegisterController extends Controller {
             } elseif (strlen($username) < self::USERNAME_MIN_LENGTH || strlen($username) > self::USERNAME_MAX_LENGTH) {
                 $this->flash->error("Username must be between " . self::USERNAME_MIN_LENGTH . " and " . self::USERNAME_MAX_LENGTH . " characters.");
             }
-            // Usernames can only contain alphanumeric characters, dashes, and underscores.
+            /**
+             * Usernames can only contain alphanumeric characters, dashes, and underscores.
+             */
             if ($username && !preg_match("/^[a-zA-Z0-9_-]+$/", $username)) {
                 $this->flash->error("Username may only contain alphanumeric charactes, dashes, and underscores.");
             }
@@ -52,9 +54,9 @@ class RegisterController extends Controller {
             } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
                 $this->flash->error("Please enter a valid email address.");
             }
-            $user = $this->model->checkIfExists($username, $email);
+            $userExists = $this->model->checkIfExists($username, $email);
 
-            if ($user) {
+            if ($userExists) {
                 $this->flash->error("An account already exists using this username or e-mail address.");
             }
         } else {
@@ -62,6 +64,11 @@ class RegisterController extends Controller {
         }
         if ($this->flash->hasErrors()) {
             $this->flash->setMessages();
+            /**
+             * When errors occur, we capture some non-sensitive information and
+             * pass it back to the form. This helps the user by not forcing
+             * them to re-enter certain information if they make a mistake.
+             */
             $_SESSION["form_input"] = [
                 "username" => $username,
                 "email" => $email
@@ -74,7 +81,7 @@ class RegisterController extends Controller {
             $this->flash->success("User registered successfully.");
             $this->flash->setMessages();
             $this->csrfToken->destroy();
-            header("Location: /");
+            header("Location: /login");
         }
     }
 }

@@ -2,8 +2,9 @@
 declare(strict_types=1);
 
 namespace ReiaDev;
-
-// CSRF stands for Cross-Site Request Forgery.
+/**
+ * CSRF stands for Cross-Site Request Forgery.
+ */
 class CSRFToken {
     public function generate(): void {
         $_SESSION["csrf_token"] = bin2hex(random_bytes(32));

@@ -14,6 +14,10 @@ class Controller {
         $this->flash = $flash;
     }
     protected function render(string $template, array $data): void {
+        /**
+         * Before rendering the template, we inject a few helpers such as flash
+         * messages and the application's current version.
+         */
         $data["flash"] = $this->flash->getMessages();
         $version = new \ReiaDev\Version();
         $data["version"] = $version->get();
