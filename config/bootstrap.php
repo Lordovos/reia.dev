@@ -23,7 +23,8 @@ $controllers = [
     "home_controller" => new \ReiaDev\Controller\HomeController(new \ReiaDev\Model\Model(), $twig, $flash),
     "register_controller" => new \ReiaDev\Controller\RegisterController(new \ReiaDev\Model\RegisterModel(), $twig, $flash, $csrfToken),
     "login_controller" => new \ReiaDev\Controller\LoginController(new \ReiaDev\Model\LoginModel(), $twig, $flash, $csrfToken),
-    "user_controller" => new \ReiaDev\Controller\UserController(new \ReiaDev\Model\UserModel(), $twig, $flash)
+    "user_controller" => new \ReiaDev\Controller\UserController(new \ReiaDev\Model\UserModel(), $twig, $flash),
+    "wiki_controller" => new \ReiaDev\Controller\WikiController(new \ReiaDev\Model\WikiModel(), $twig, $flash, $csrfToken)
 ];
 $router = new \Bramus\Router\Router();
 /**
@@ -53,6 +54,29 @@ $router->get("/logout", function () use ($controllers) {
 });
 $router->get("/user/([a-zA-Z0-9_-]+)", function (string $username) use ($controllers) {
     $controllers["user_controller"]->index($username);
+});
+$router->mount("/wiki", function () use ($router, $controllers) {
+    $router->get("/", function () use ($controllers) {
+        $controllers["wiki_controller"]->index();
+    });
+    $router->get("/new", function () use ($controllers) {
+        $controllers["wiki_controller"]->newArticle(null);
+    });
+    $router->get("/new/(.*)", function (string $slug) use ($controllers) {
+        $controllers["wiki_controller"]->newArticle($slug);
+    });
+    $router->post("/new", function () use ($controllers) {
+        $controllers["wiki_controller"]->publishArticle();
+    });
+    $router->get("/([a-z0-9-]+)", function (string $slug) use ($controllers) {
+        $controllers["wiki_controller"]->readArticle($slug);
+    });
+    $router->get("/edit/([a-z0-9-]+)", function (string $slug) use ($controllers) {
+        $controllers["wiki_controller"]->editArticle($slug);
+    });
+    $router->post("/edit/([a-z0-9-]+)", function (string $slug) use ($controllers) {
+        $controllers["wiki_controller"]->updateArticle($slug);
+    });
 });
 $router->set404(function () use ($controllers) {
     header("HTTP/1.1 404 Not Found");

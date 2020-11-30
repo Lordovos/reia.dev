@@ -1,0 +1,27 @@
+{% extends "base.twig" %}
+
+{% block content %}
+    <ul class="wiki-nav">
+        <li><a href="/wiki/new"><i class="las la-file"></i> <span class="desktop-text">New</span></a></li>
+    </ul>
+    <hr>
+    <article>
+        <h1>Wiki</h1>
+        <hr>
+        {% if articles|length > 0 %}
+            <ul>
+            {% for article in articles %}
+                {% if not article.is_hidden or (user and user.isAdministrator()) %}
+                    <li><a href="/wiki/{{ article.slug }}">
+                        {% if article.is_hidden %}<i class="las la-eye-slash"></i>{% endif %}
+                        {% if article.is_locked %}<i class="las la-lock"></i>{% endif %}
+                        {{ article.title }}
+                    </a></li>
+                {% endif %}
+            {% endfor %}
+            </ul>
+        {% else %}
+            <p>There are currently no wiki articles.</p>
+        {% endif %}
+    </article>
+{% endblock %}

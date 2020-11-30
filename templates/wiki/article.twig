@@ -1,0 +1,47 @@
+{% extends "base.twig" %}
+
+{% block content %}
+    <ul class="wiki-nav">
+        {% if article %}
+            {% if article.is_hidden %}
+                <li class="wiki-nav-item-status"><i class="las la-eye-slash"></i></li>
+            {% endif %}
+            {% if article.is_locked %}
+                <li class="wiki-nav-item-status"><i class="las la-lock"></i></li>
+                <li class="wiki-nav-item-disabled wiki-nav-splitter"><a href="/wiki/edit/{{ article.slug }}"><i class="las la-edit"></i> <span class="desktop-text">Edit</span></a></li>
+            {% else %}
+                <li class="wiki-nav-splitter"><a href="/wiki/edit/{{ article.slug }}"><i class="las la-edit"></i> <span class="desktop-text">Edit</span></a></li>
+            {% endif %}
+            <li><a href="/wiki/history/{{ article.slug }}"><i class="las la-history"></i> <span class="desktop-text">History</span></a></li>
+        {% else %}
+            <li><a href="/wiki/new"><i class="las la-file"></i> <span class="desktop-text">New</span></a></li>
+        {% endif %}
+    </ul>
+    <hr>
+    {% if article %}
+        <article class="wiki-article">
+            <h1 class="wiki-article-title">{{ article.title }}</h1>
+            <hr>
+            <div class="wiki-article-body">
+                {{ article.body }}
+            </div>
+            {% if categories|length > 0 %}
+                <hr>
+                <p class="wiki-article-categories">
+                    <strong>Categories:</strong>
+                {% for category in categories %}
+                    <a href="/wiki/search/category:{{ category }}">{{ category }}</a>{% if not loop.last %},{% endif %}
+                {% endfor %}
+                </p>
+            {% endif %}
+        </article>
+    {% else %}
+        <article class="wiki-article">
+            <h1 class="wiki-article-title">{{ slug }}</h1>
+            <hr>
+            <div class="wiki-article-body">
+                <p>The article you're looking for does not exist.</p>
+            </div>
+        </article>
+    {% endif %}
+{% endblock %}

@@ -46,4 +46,12 @@ class Controller {
             $this->user = null;
         }
     }
+    protected function toSlug(string $str): string {
+        $str = strtolower($str);
+        $str = trim($str);
+        $str = preg_replace("/[^a-z0-9 -]/", "", $str);
+        $str = preg_replace("/\s+/", " ", $str);
+        $str = str_replace(" ", "-", $str);
+        return $str;
+    }
 }

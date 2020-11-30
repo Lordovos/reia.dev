@@ -1,0 +1,61 @@
+{% extends "base.twig" %}
+
+{% block content %}
+    {% if article %}
+        <article>
+            <h1 class="wiki-article-title">{{ article.title }}</h1>
+            <hr>
+        </article>
+        <form action="/wiki/edit/{{ article.slug }}" method="post">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+            <div class="form-group">
+                <label for="input-body">Body</label>
+                <textarea name="body" id="input-body" rows="30" cols="120">{{ form_input ? form_input.body : article.body }}</textarea>
+            </div>
+            <div>
+                <label for="input-categories">Categories</label>
+                <input type="text" name="categories" id="input-categories" size="80" value="{{ form_input ? form_input.categories : article.categories }}">
+            </div>
+            <hr>
+            <div class="form-button-list">
+                {% set is_hidden_checked = null %}
+                {% if (form_input and form_input.is_hidden == "yes") or article.is_hidden %}
+                    {% set is_hidden_checked = "checked" %}
+                {% endif %}
+                <label for="input-is-hidden" class="form-checkbox-label wiki-hide">
+                    {% if is_hidden_checked %}
+                        <i class="lar la-check-square form-checkbox-icon"></i>
+                    {% else %}
+                        <i class="lar la-square form-checkbox-icon"></i>
+                    {% endif %}
+                    <span class="form-checkbox-label-divider"></span>
+                    <i class="las la-eye-slash"></i>
+                    <span class="desktop-text">Hide</span>
+                </label>
+                <input type="hidden" name="is_hidden" value="no">
+                <input type="checkbox" name="is_hidden" id="input-is-hidden" class="form-checkbox-hide" value="yes" {{ is_hidden_checked }}>
+                {% set is_locked_checked = null %}
+                {% if (form_input and form_input.is_locked == "yes") or article.is_locked %}
+                    {% set is_locked_checked = "checked" %}
+                {% endif %}
+                <label for="input-is-locked" class="form-checkbox-label wiki-lock">
+                    {% if is_locked_checked %}
+                        <i class="lar la-check-square form-checkbox-icon"></i>
+                    {% else %}
+                        <i class="lar la-square form-checkbox-icon"></i>
+                    {% endif %}
+                    <span class="form-checkbox-label-divider"></span>
+                    <i class="las la-lock"></i>
+                    <span class="desktop-text">Lock</span>
+                </label>
+                <input type="hidden" name="is_locked" value="no">
+                <input type="checkbox" name="is_locked" id="input-is-locked" class="form-checkbox-hide" value="yes" {{ is_locked_checked }}>
+            </div>
+            <hr>
+            <div class="form-button-list">
+                <button type="submit"><i class="las la-save"></i> <span class="desktop-text">Update</span></button>
+                <p class="form-button-cancel"><a href="/wiki/{{ article.slug }}"><i class="las la-times"></i> <span class="desktop-text">Cancel</span></a></p>
+            </div>
+        </form>
+    {% endif %}
+{% endblock %}
