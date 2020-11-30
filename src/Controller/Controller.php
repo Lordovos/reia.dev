@@ -7,7 +7,7 @@ class Controller {
     protected \ReiaDev\Model\Model $model;
     protected \Twig\Environment $twig;
     protected \ReiaDev\Flash $flash;
-    protected ?\ReiaDev\User $user;
+    protected ?\ReiaDev\User $user = null;
 
     public function __construct(\ReiaDev\Model\Model $model, \Twig\Environment $twig, \ReiaDev\Flash $flash) {
         $this->model = $model;

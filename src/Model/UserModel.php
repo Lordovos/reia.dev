@@ -38,7 +38,7 @@ SQL;
             FROM
                 users
             WHERE
-                username = ?;
+                username ILIKE ?;
 SQL;
         $db = \ReiaDev\Database::getInstance()->getConnection();
         $stmt = $db->prepare($sql);
