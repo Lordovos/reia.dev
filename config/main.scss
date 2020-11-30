@@ -191,6 +191,10 @@ button {
     &:hover {
         border-color: #fff;
     }
+    &:disabled {
+        color: $medium-gray;
+        border-color: $medium-gray;
+    }
 }
 label {
     display: block;

@@ -140,6 +140,7 @@ class WikiController extends Controller {
     }
     public function updateArticle(string $slug): void {
         $csrfToken = $_POST["csrf_token"] ?? "";
+        $article = $this->model->findSlug($slug);
         $body = $_POST["body"] ?? null;
         $categories = $_POST["categories"] ?? null;
         $categorySlugs = [];
@@ -147,6 +148,11 @@ class WikiController extends Controller {
         $isLocked = $_POST["is_locked"] ?? "no";
 
         if ($this->csrfToken->verify($csrfToken)) {
+            if ($article) {
+                if ($body === $article["body"] && $categories === $article["categories"]) {
+                    $this->flash->error("No changes found. Please modify the article before submitting.");
+                }
+            }
             if ($categories) {
                 $c = explode(",", $categories);
     
@@ -158,6 +164,7 @@ class WikiController extends Controller {
             $this->flash->error("Possible Cross-Site Request Forgery. Please contact the server administrator.");
         }
         if ($this->flash->hasErrors()) {
+            $this->flash->setMessages();
             $_SESSION["form_input"] = [
                 "body" => $body,
                 "categories" => $categories,
