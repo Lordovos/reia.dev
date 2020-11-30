@@ -21,16 +21,22 @@ class RegisterController extends Controller {
         $formInput = $_SESSION["form_input"] ?? null;
         unset($_SESSION["form_input"]);
 
+        if ($this->user) {
+            $this->flash->error("You're already logged in.");
+            $this->flash->setMessages();
+            header("Location: /user/" . $this->user->username);
+            exit();
+        }
         $this->render("register.twig", [
             "form_input" => $formInput,
             "csrf_token" => $this->csrfToken->get()
         ]);
     }
     public function register(): void {
-        $csrfToken = $_POST["csrf_token"];
-        $username = $_POST["username"];
-        $password = $_POST["password"];
-        $email = $_POST["email"];
+        $csrfToken = $_POST["csrf_token"] ?? null;
+        $username = $_POST["username"] ?? null;
+        $password = $_POST["password"] ?? null;
+        $email = $_POST["email"] ?? null;
 
         if ($this->csrfToken->verify($csrfToken)) {
             if (!$username) {

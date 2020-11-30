@@ -5,7 +5,7 @@ require_once __DIR__ . "/../vendor/autoload.php";
  * If the environment variable APP_ENV isn't set, or it isn't equal to
  * "production" we load the .env file from the user's local repository.
  */
-if (!isset($_ENV["APP_ENV"]) || $_ENV["APP_ENV"] !== "production") {
+if (empty($_ENV["APP_ENV"]) || $_ENV["APP_ENV"] !== "production") {
     if (file_exists(__DIR__ . "/../.env")) {
         $dotenv = \Dotenv\Dotenv::createImmutable(__DIR__ . "/../");
         $dotenv->load();
@@ -22,7 +22,8 @@ $csrfToken = new \ReiaDev\CSRFToken();
 $controllers = [
     "home_controller" => new \ReiaDev\Controller\HomeController(new \ReiaDev\Model\Model(), $twig, $flash),
     "register_controller" => new \ReiaDev\Controller\RegisterController(new \ReiaDev\Model\RegisterModel(), $twig, $flash, $csrfToken),
-    "login_controller" => new \ReiaDev\Controller\LoginController(new \ReiaDev\Model\LoginModel(), $twig, $flash, $csrfToken)
+    "login_controller" => new \ReiaDev\Controller\LoginController(new \ReiaDev\Model\LoginModel(), $twig, $flash, $csrfToken),
+    "user_controller" => new \ReiaDev\Controller\UserController(new \ReiaDev\Model\UserModel(), $twig, $flash)
 ];
 $router = new \Bramus\Router\Router();
 /**
@@ -46,6 +47,12 @@ $router->get("/login", function () use ($controllers) {
 });
 $router->post("/login", function () use ($controllers) {
     $controllers["login_controller"]->login();
+});
+$router->get("/logout", function () use ($controllers) {
+    $controllers["login_controller"]->logout();
+});
+$router->get("/user/([a-zA-Z0-9_-]+)", function (string $username) use ($controllers) {
+    $controllers["user_controller"]->index($username);
 });
 $router->set404(function () use ($controllers) {
     header("HTTP/1.1 404 Not Found");

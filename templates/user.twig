@@ -1,0 +1,9 @@
+{% extends "base.twig" %}
+
+{% block content %}
+    <article>
+        <h1>{{ profile.username }}</h1>
+        <hr>
+        <p>Joined: <span class="datetime">{{ profile.join_date }}</span></p>
+    </article>
+{% endblock %}

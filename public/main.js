@@ -41,3 +41,21 @@ wikiLockToggle?.addEventListener("click", () => {
         icon.classList.add("la-check-square");
     }
 }, false);
+
+function toLocalTime(utcTime) {
+    "use strict";
+    let localTime = new Date(`${utcTime} UTC`);
+    let options = {
+        year: "numeric",
+        month: "short",
+        day: "numeric",
+        hour: "2-digit",
+        minute: "numeric"
+    };
+    return localTime.toLocaleDateString("en-US", options);
+}
+let dateTimes = document.querySelectorAll(".datetime");
+
+dateTimes?.forEach((dateTime) => {
+    dateTime.textContent = toLocalTime(dateTime.textContent);
+});

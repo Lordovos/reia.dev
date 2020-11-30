@@ -1,13 +1,21 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-1FB6E1MGVY"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-1FB6E1MGVY');
+        </script>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>reia.dev</title>
         <link href="https://fonts.googleapis.com/css2?family=Open+Sans" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono" rel="stylesheet">
         <link href="https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css" rel="stylesheet">
-        <link href="/main.css" rel="stylesheet">
+        <link href="/main.css?{{ seed }}" rel="stylesheet">
     </head>
     <body class="container">
         {{ include("header.twig") }}
@@ -20,6 +28,6 @@
             {% block content %}{% endblock %}
         </main>
         {{ include("footer.twig") }}
-        <script src="/main.js"></script>
+        <script src="/main.js?{{ seed }}"></script>
     </body>
 </html>

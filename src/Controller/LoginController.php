@@ -18,26 +18,33 @@ class LoginController extends Controller {
         $formInput = $_SESSION["form_input"] ?? null;
         unset($_SESSION["form_input"]);
 
+        if ($this->user) {
+            $this->flash->error("You're already logged in.");
+            $this->flash->setMessages();
+            header("Location: /user/" . $this->user->username);
+            exit();
+        }
         $this->render("login.twig", [
             "form_input" => $formInput,
             "csrf_token" => $this->csrfToken->get()
         ]);
     }
     public function login(): void {
-        $csrfToken = $_POST["csrf_token"];
-        $username = $_POST["username"];
-        $password = $_POST["password"];
-        $email = $_POST["email"];
+        $csrfToken = $_POST["csrf_token"] ?? null;
+        $username = $_POST["username"] ?? null;
+        $password = $_POST["password"] ?? null;
+        $email = $_POST["email"] ?? null;
+        $user = null;
 
         if ($this->csrfToken->verify($csrfToken)) {
             if ($username && $password) {
-                $verifyUser = $this->model->verify($username, $password);
+                $user = $this->model->verify($username, $password);
 
-                if (!$verifyUser) {
+                if (!$user) {
                     $this->flash->error("Invalid credentials.");
-                } elseif ($verifyUser["role"] === \ReiaDev\Role::UNVERIFIED_USER) {
+                } elseif ($user["role"] === \ReiaDev\Role::UNVERIFIED_USER) {
                     $this->flash->error("Unverified user. Please contact a member of the moderation team.");
-                } elseif ($verifyUser["role"] === \ReiaDev\Role::BANNED_USER) {
+                } elseif ($user["role"] === \ReiaDev\Role::BANNED_USER) {
                     $this->flash->error("Banned user. Please contact a member of the moderation team.");
                 }
             } else {
@@ -53,10 +60,23 @@ class LoginController extends Controller {
             ];
             header("Location: /login");
         } else {
+            $_SESSION["user_id"] = $user["id"];
             $this->flash->success("User logged in successfully.");
             $this->flash->setMessages();
             $this->csrfToken->destroy();
+            header("Location: /user/" . $user["username"]);
+        }
+    }
+    public function logout(): void {
+        if ($this->user) {
+            unset($_SESSION["user_id"]);
+            $this->flash->success("User logged out succesfully.");
+            $this->flash->setMessages();
             header("Location: /");
+        } else {
+            $this->flash->error("Please log in to view this page.");
+            $this->flash->setMessages();
+            header("Location: /login");
         }
     }
 }
