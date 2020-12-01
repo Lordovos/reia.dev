@@ -16,41 +16,43 @@
                 <label for="input-categories">Categories</label>
                 <input type="text" name="categories" id="input-categories" size="80" value="{{ form_input ? form_input.categories : article.categories }}">
             </div>
-            <hr>
-            <div class="form-button-list">
-                {% set is_hidden_checked = null %}
-                {% if (form_input and (form_input.is_hidden == "yes" or form_input.is_hidden == 1)) or article.is_hidden %}
-                    {% set is_hidden_checked = "checked" %}
-                {% endif %}
-                <label for="input-is-hidden" class="form-checkbox-label wiki-hide">
-                    {% if is_hidden_checked %}
-                        <i class="lar la-check-square form-checkbox-icon"></i>
-                    {% else %}
-                        <i class="lar la-square form-checkbox-icon"></i>
+            {% if user and user.isAdministrator() %}
+                <hr>
+                <div class="form-button-list">
+                    {% set is_hidden_checked = null %}
+                    {% if (form_input and (form_input.is_hidden == "yes" or form_input.is_hidden == 1)) or article.is_hidden %}
+                        {% set is_hidden_checked = "checked" %}
                     {% endif %}
-                    <span class="form-checkbox-label-divider"></span>
-                    <i class="las la-eye-slash"></i>
-                    <span class="desktop-text">Hide</span>
-                </label>
-                <input type="hidden" name="is_hidden" value="no">
-                <input type="checkbox" name="is_hidden" id="input-is-hidden" class="form-checkbox-hide" value="yes" {{ is_hidden_checked }}>
-                {% set is_locked_checked = null %}
-                {% if (form_input and (form_input.is_locked == "yes" or form.input_is_locked == 1)) or article.is_locked %}
-                    {% set is_locked_checked = "checked" %}
-                {% endif %}
-                <label for="input-is-locked" class="form-checkbox-label wiki-lock">
-                    {% if is_locked_checked %}
-                        <i class="lar la-check-square form-checkbox-icon"></i>
-                    {% else %}
-                        <i class="lar la-square form-checkbox-icon"></i>
+                    <label for="input-is-hidden" class="form-checkbox-label wiki-hide">
+                        {% if is_hidden_checked %}
+                            <i class="lar la-check-square form-checkbox-icon"></i>
+                        {% else %}
+                            <i class="lar la-square form-checkbox-icon"></i>
+                        {% endif %}
+                        <span class="form-checkbox-label-divider"></span>
+                        <i class="las la-eye-slash"></i>
+                        <span class="desktop-text">Hide</span>
+                    </label>
+                    <input type="hidden" name="is_hidden" value="no">
+                    <input type="checkbox" name="is_hidden" id="input-is-hidden" class="form-checkbox-hide" value="yes" {{ is_hidden_checked }}>
+                    {% set is_locked_checked = null %}
+                    {% if (form_input and (form_input.is_locked == "yes" or form.input_is_locked == 1)) or article.is_locked %}
+                        {% set is_locked_checked = "checked" %}
                     {% endif %}
-                    <span class="form-checkbox-label-divider"></span>
-                    <i class="las la-lock"></i>
-                    <span class="desktop-text">Lock</span>
-                </label>
-                <input type="hidden" name="is_locked" value="no">
-                <input type="checkbox" name="is_locked" id="input-is-locked" class="form-checkbox-hide" value="yes" {{ is_locked_checked }}>
-            </div>
+                    <label for="input-is-locked" class="form-checkbox-label wiki-lock">
+                        {% if is_locked_checked %}
+                            <i class="lar la-check-square form-checkbox-icon"></i>
+                        {% else %}
+                            <i class="lar la-square form-checkbox-icon"></i>
+                        {% endif %}
+                        <span class="form-checkbox-label-divider"></span>
+                        <i class="las la-lock"></i>
+                        <span class="desktop-text">Lock</span>
+                    </label>
+                    <input type="hidden" name="is_locked" value="no">
+                    <input type="checkbox" name="is_locked" id="input-is-locked" class="form-checkbox-hide" value="yes" {{ is_locked_checked }}>
+                </div>
+            {% endif %}
             <hr>
             <div class="form-button-list">
                 <button type="submit"><i class="las la-save"></i> <span class="desktop-text">Update</span></button>

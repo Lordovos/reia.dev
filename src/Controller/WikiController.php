@@ -66,9 +66,13 @@ class WikiController extends Controller {
         $body = $_POST["body"] ?? null;
         $categories = $_POST["categories"] ?? null;
         $categorySlugs = [];
-        $isHidden = $_POST["is_hidden"] ?? "no";
-        $isLocked = $_POST["is_locked"] ?? "no";
-    
+        $isHidden = null;
+        $isLocked = null;
+
+        if ($this->user->isAdministrator()) {
+            $isHidden = $_POST["is_hidden"] ?? "no";
+            $isLocked = $_POST["is_locked"] ?? "no";
+        }
         if ($this->csrfToken->verify($csrfToken)) {
             if (!$title) {
                 $this->flash->error("Please enter a title.");
@@ -95,16 +99,25 @@ class WikiController extends Controller {
             $_SESSION["form_input"] = [
                 "title" => $title,
                 "body" => $body,
-                "categories" => $categories,
-                "is_hidden" => $isHidden,
-                "is_locked" => $isLocked
+                "categories" => $categories
             ];
+            if ($this->user->isAdministrator()) {
+                $_SESSION["form_input"][] = [
+                    "is_hidden" => $isHidden,
+                    "is_locked" => $isLocked
+                ];
+            }
             header("Location: /wiki/new/" . $title);
         } else {
-            $isHidden = ($isHidden === "yes" ? 1 : 0);
-            $isLocked = ($isLocked === "yes" ? 1 : 0);
             $date = new \DateTime("now", new \DateTimeZone("UTC"));
-            $this->model->addArticle($title, $slug, $body, implode(",", $categorySlugs), $this->user->id, $date->format("Y-m-d H:i:s"), $isHidden, $isLocked);
+            $this->model->addArticle($title, $slug, $body, implode(",", $categorySlugs), $this->user->id, $date->format("Y-m-d H:i:s"));
+
+            if ($this->user->isAdministrator()) {
+                $isHidden = ($isHidden === "yes" ? 1 : 0);
+                $isLocked = ($isLocked === "yes" ? 1 : 0);
+                $this->model->hideArticle($isHidden, $slug);
+                $this->model->lockArticle($isLocked, $slug);
+            }
             $this->flash->success("Wiki article created successfully.");
             $this->flash->setMessages();
             header("Location: /wiki/" . $slug);
@@ -145,16 +158,25 @@ class WikiController extends Controller {
         $body = $_POST["body"] ?? null;
         $categories = $_POST["categories"] ?? null;
         $categorySlugs = [];
-        $isHidden = $_POST["is_hidden"] ?? "no";
-        $isLocked = $_POST["is_locked"] ?? "no";
+        $isHidden = null;
+        $isLocked = null;
 
-        if ($this->csrfToken->verify($csrfToken)) {
+        if ($this->user->isAdministrator()) {
+            $isHidden = $_POST["is_hidden"] ?? "no";
+            $isLocked = $_POST["is_locked"] ?? "no";
             $isHidden = ($isHidden === "yes" ? 1 : 0);
             $isLocked = ($isLocked === "yes" ? 1 : 0);
-
+        }
+        if ($this->csrfToken->verify($csrfToken)) {
             if ($article) {
-                if ($body === $article["body"] && $categories === $article["categories"] && $isHidden === $article["is_hidden"] && $isLocked === $article["is_locked"]) {
-                    $this->flash->error("No changes found. Please modify the article before submitting.");
+                if ($this->user->isAdministrator()) {
+                    if ($body === $article["body"] && $categories === $article["categories"] && $isHidden === $article["is_hidden"] && $isLocked === $article["is_locked"]) {
+                        $this->flash->error("No changes found. Please modify the article before submitting.");
+                    }
+                } else {
+                    if ($body === $article["body"] && $categories === $article["categories"]) {
+                        $this->flash->error("No changes found. Please modify the article before submitting.");
+                    }
                 }
             }
             if ($categories) {
@@ -171,14 +193,23 @@ class WikiController extends Controller {
             $this->flash->setMessages();
             $_SESSION["form_input"] = [
                 "body" => $body,
-                "categories" => $categories,
-                "is_hidden" => $isHidden,
-                "is_locked" => $isLocked
+                "categories" => $categories
             ];
+            if ($this->user->isAdministrator()) {
+                $_SESSION["form_input"][] = [
+                    "is_hidden" => $isHidden,
+                    "is_locked" => $isLocked
+                ];
+            }
             header("Location: /wiki/edit/" . $slug);
         } else {
             $date = new \DateTime("now", new \DateTimeZone("UTC"));
-            $this->model->updateArticle($body, implode(",", $categorySlugs), $this->user->id, $date->format("Y-m-d H:i:s"), $isHidden, $isLocked, $slug);
+            $this->model->updateArticle($body, implode(",", $categorySlugs), $this->user->id, $date->format("Y-m-d H:i:s"), $slug);
+
+            if ($this->user->isAdministrator()) {
+                $this->model->hideArticle($isHidden, $slug);
+                $this->model->lockArticle($isLocked, $slug);
+            }
             $this->flash->success("Wiki article updated successfully.");
             $this->flash->setMessages();
             header("Location: /wiki/" . $slug);
