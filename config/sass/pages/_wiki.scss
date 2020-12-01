@@ -1,0 +1,58 @@
+.wiki-nav {
+    @include reset-list;
+    justify-content: flex-end;
+
+    li {
+        border: 1px solid $medium-gray;
+        border-radius: 0.25rem;
+
+        &:not(:last-child) {
+            margin-right: 1rem;
+        }
+        &.wiki-nav-splitter {
+            margin-left: auto;
+        }
+        &:hover {
+            border-color: #fff;
+        }
+        &.wiki-nav-item-disabled > a {
+            color: $medium-gray;
+        }
+        &.wiki-nav-item-disabled:hover {
+            border-color: $medium-gray;
+        }
+    }
+    li a {
+        @include nav-link;
+        padding: 0.5rem 1rem;
+    }
+}
+.wiki-nav-item-status {
+    padding: 0.5rem 1rem;
+
+    &:hover {
+        border-color: $medium-gray;
+    }
+}
+.wiki-article-title {
+    text-overflow: ellipsis;
+    white-space: normal;
+    overflow: hidden;
+}
+.wiki-article-body {
+    h2 {
+        border-bottom: 1px solid $medium-gray;
+        margin-bottom: 0.5rem;
+    }
+}
+@media screen and (max-width: 320px) {
+    .wiki-nav {
+        justify-content: space-between;
+    }
+    .wiki-nav li:not(:last-child) {
+        margin: 0;
+    }
+    .wiki-nav li.wiki-nav-splitter {
+        margin: 0;
+    }
+}

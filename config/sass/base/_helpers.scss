@@ -1,0 +1,19 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+.header {
+    background-color: $reian-red;
+    padding: 1rem;
+    box-shadow: 0 0 0.60rem #000;
+    z-index: 1;
+}
+.desktop-text {
+    display: none;
+}
+@media screen and (min-width: 768px) {
+    .desktop-text {
+        display: inline;
+    }
+}

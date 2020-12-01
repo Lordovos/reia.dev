@@ -1,0 +1,96 @@
+.nav {
+    @include reset-list;
+    flex-direction: column;
+
+    a {
+        @include nav-link;
+        font-weight: bold;
+        text-shadow: 1px 1px #000;
+
+        &:hover {
+            color: #fff2d1;
+        }
+    }
+}
+.nav-brand a {
+    display: block;
+    font-size: 2rem;
+}
+.nav-toggle {
+    position: absolute;
+    align-self: flex-end;
+    cursor: pointer;
+    font-size: 2rem;
+}
+.nav-item {
+    display: none;
+
+    a {
+        padding: 0.5rem 0;
+    }
+}
+.nav-item-show {
+    display: block;
+}
+.nav-search {
+    margin-top: 0.5rem;
+}
+.nav-search-container {
+    display: flex;
+}
+.nav-search-input, .nav-search-button {
+    color: #fff;
+    font-family: inherit;
+    font-size: 1rem;
+    background-color: $reian-red;
+    border: 1px solid #fff;
+    box-shadow: 1px 1px #000;
+}
+.nav-search-input {
+    border-right: 0;
+    border-radius: 0.25rem 0 0 0.25rem;
+    padding: 0.5rem;
+    flex-grow: 1;
+
+    &::placeholder {
+        color: #999;
+    }
+}
+.nav-search-button {
+    padding: 0.5rem 1rem;
+    border-radius: 0 0.25rem 0.25rem 0;
+}
+@media screen and (min-width: 768px) {
+    .nav {
+        flex-direction: row;
+        justify-content: flex-end;
+        margin: 0 1rem;
+    }
+    .nav-brand {
+        margin-right: auto;
+
+        a {
+            padding: 0;
+        }
+    }
+    .nav-toggle {
+        display: none;
+    }
+    .nav-item {
+        display: block;
+        align-self: center;
+        margin-right: 1.5rem;
+
+        &:last-child {
+            margin-right: 0;
+        }
+    }
+    .nav-search {
+        margin: 0;
+    }
+}
+@media screen and (min-width: 1024px) {
+    .nav-item {
+        margin-right: 2rem;
+    }
+}
