@@ -19,7 +19,7 @@
             <hr>
             <div class="form-button-list">
                 {% set is_hidden_checked = null %}
-                {% if (form_input and form_input.is_hidden == "yes") or article.is_hidden %}
+                {% if (form_input and (form_input.is_hidden == "yes" or form_input.is_hidden == 1)) or article.is_hidden %}
                     {% set is_hidden_checked = "checked" %}
                 {% endif %}
                 <label for="input-is-hidden" class="form-checkbox-label wiki-hide">
@@ -35,7 +35,7 @@
                 <input type="hidden" name="is_hidden" value="no">
                 <input type="checkbox" name="is_hidden" id="input-is-hidden" class="form-checkbox-hide" value="yes" {{ is_hidden_checked }}>
                 {% set is_locked_checked = null %}
-                {% if (form_input and form_input.is_locked == "yes") or article.is_locked %}
+                {% if (form_input and (form_input.is_locked == "yes" or form.input_is_locked == 1)) or article.is_locked %}
                     {% set is_locked_checked = "checked" %}
                 {% endif %}
                 <label for="input-is-locked" class="form-checkbox-label wiki-lock">

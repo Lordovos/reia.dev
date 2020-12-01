@@ -1,0 +1,28 @@
+{% extends "base.twig" %}
+
+{% block content %}
+    <article>
+        <h1>Search</h1>
+        <hr>
+        {% if term %}
+            <p>Fetching results for &quot;{{ term }}&quot;...</p>
+
+            {% if results|length > 0 %}
+                {% if results.articles|length > 0 %}
+                    {% for article in results.articles %}
+                        <p><a href="/wiki/{{ article.slug }}">{{ article.title }}</a></p>
+                    {% endfor %}
+                {% endif %}
+                {% if results.users|length > 0 %}
+                    {% for user in results.users %}
+                        <p><a href="/user/{{ user.username }}">{{ user.username }}</a></p>
+                    {% endfor %}
+                {% endif %}
+            {% else %}
+                <p>No results found.</p>
+            {% endif %}
+        {% else %}
+            <p>No search terms entered.</p>
+        {% endif %}
+    </article>
+{% endblock %}

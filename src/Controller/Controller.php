@@ -46,6 +46,9 @@ class Controller {
             $this->user = null;
         }
     }
+    /**
+     * Converts strings to all lowercase and converts whitespace to dashes.
+     */
     protected function toSlug(string $str): string {
         $str = strtolower($str);
         $str = trim($str);

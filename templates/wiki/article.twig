@@ -12,7 +12,7 @@
             {% else %}
                 <li class="wiki-nav-splitter"><a href="/wiki/edit/{{ article.slug }}"><i class="las la-edit"></i> <span class="desktop-text">Edit</span></a></li>
             {% endif %}
-            <li><a href="/wiki/history/{{ article.slug }}"><i class="las la-history"></i> <span class="desktop-text">History</span></a></li>
+            <li class="wiki-nav-item-disabled"><a href="/wiki/{{ article.slug }}"><i class="las la-history"></i> <span class="desktop-text">History</span></a></li>
         {% else %}
             <li><a href="/wiki/new"><i class="las la-file"></i> <span class="desktop-text">New</span></a></li>
         {% endif %}
@@ -30,7 +30,7 @@
                 <p class="wiki-article-categories">
                     <strong>Categories:</strong>
                 {% for category in categories %}
-                    <a href="/wiki/search/category:{{ category }}">{{ category }}</a>{% if not loop.last %},{% endif %}
+                    <a href="/search/category:{{ category }}">{{ category }}</a>{% if not loop.last %},{% endif %}
                 {% endfor %}
                 </p>
             {% endif %}

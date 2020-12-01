@@ -13,4 +13,16 @@ class HomeController extends Controller {
     public function notFound(): void {
         $this->render("404.twig", []);
     }
+    public function search(string $term): void {
+        $results = $this->model->search($term);
+
+        $this->render("search.twig", [
+            "term" => $term,
+            "results" => $results
+        ]);
+    }
+    public function newSearch(): void {
+        $term = $_POST["search"] ?? "";
+        header("Location: /search/" . $term);
+    }
 }

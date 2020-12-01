@@ -2,7 +2,10 @@
 declare(strict_types=1);
 
 namespace ReiaDev\Controller;
-
+/**
+ * TODO: Add a preview button for articles.
+ * TODO: Add revision history.
+ */
 class WikiController extends Controller {
     const TITLE_MIN_LENGTH = 4;
     const TITLE_MAX_LENGTH = 32;
@@ -25,15 +28,13 @@ class WikiController extends Controller {
     }
     public function readArticle(string $slug): void {
         $article = $this->model->findSlug($slug);
+        $categories = null;
 
         if ($article) {
             if ($article["categories"]) {
                 $categories = explode(",", $article["categories"]);
-            } else {
-                $categories = null;
             }
         } else {
-            $categories = null;
             header("HTTP/1.1 404 Not Found");
         }
         $this->render("wiki/article.twig", [
@@ -42,7 +43,7 @@ class WikiController extends Controller {
             "categories" => $categories
         ]);
     }
-    public function newArticle(?string $slug): void {
+    public function newArticle(string $slug): void {
         $formInput = $_SESSION["form_input"] ?? null;
         unset($_SESSION["form_input"]);
 
@@ -148,8 +149,11 @@ class WikiController extends Controller {
         $isLocked = $_POST["is_locked"] ?? "no";
 
         if ($this->csrfToken->verify($csrfToken)) {
+            $isHidden = ($isHidden === "yes" ? 1 : 0);
+            $isLocked = ($isLocked === "yes" ? 1 : 0);
+
             if ($article) {
-                if ($body === $article["body"] && $categories === $article["categories"]) {
+                if ($body === $article["body"] && $categories === $article["categories"] && $isHidden === $article["is_hidden"] && $isLocked === $article["is_locked"]) {
                     $this->flash->error("No changes found. Please modify the article before submitting.");
                 }
             }
@@ -173,8 +177,6 @@ class WikiController extends Controller {
             ];
             header("Location: /wiki/edit/" . $slug);
         } else {
-            $isHidden = ($isHidden === "yes" ? 1 : 0);
-            $isLocked = ($isLocked === "yes" ? 1 : 0);
             $date = new \DateTime("now", new \DateTimeZone("UTC"));
             $this->model->updateArticle($body, implode(",", $categorySlugs), $this->user->id, $date->format("Y-m-d H:i:s"), $isHidden, $isLocked, $slug);
             $this->flash->success("Wiki article updated successfully.");
