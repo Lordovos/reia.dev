@@ -1,6 +1,16 @@
 *, *:before, *:after {
     box-sizing: border-box;
 }
+body {
+    margin: 0;
+    color: #fff;
+    font-family: $text-font-stack;
+    background-color: $dark-gray;
+}
+code {
+    font-family: $code-font-stack;
+    font-size: 0.75rem;
+}
 main {
     padding: 1rem;
     flex-grow: 1;
@@ -46,6 +56,24 @@ article {
     }
     h4, h5, h6 {
         font-size: 1rem;
+    }
+}
+button {
+    color: #fff;
+    font-family: inherit;
+    font-size: 1rem;
+    background-color: $dark-gray;
+    border: 1px solid $medium-gray;
+    border-radius: 0.25rem;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+
+    &:hover {
+        border-color: #fff;
+    }
+    &:disabled {
+        color: $medium-gray;
+        border-color: $medium-gray;
     }
 }
 @media screen and (min-width: 768px) {
