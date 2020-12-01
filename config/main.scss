@@ -67,7 +67,20 @@ a {
 }
 article {
     p {
+        line-height: 1.5;
         margin-bottom: 1rem;
+    }
+    h1 {
+        font-size: 2rem;
+    }
+    h2 {
+        font-size: 1.5rem;
+    }
+    h3 {
+        font-size: 1.1rem;
+    }
+    h4, h5, h6 {
+        font-size: 1rem;
     }
 }
 /* Layout rulesets. */
@@ -308,26 +321,14 @@ label {
     }
 }
 .wiki-article-title {
-    font-size: 2rem;
     text-overflow: ellipsis;
     white-space: normal;
     overflow: hidden;
 }
 .wiki-article-body {
-    p {
-        margin-bottom: 1rem;
-        line-height: 1.5;
-    }
     h2 {
-        font-size: 1.5rem;
         border-bottom: 1px solid $medium-gray;
         margin-bottom: 0.5rem;
-    }
-    h3 {
-        font-size: 1.1rem;
-    }
-    h4, h5, h6 {
-        font-size: 1rem;
     }
 }
 /* Media query rulesets for smallest mobile screen. */
@@ -385,5 +386,12 @@ label {
         display: inline;
         border-left: 1px solid $medium-gray;
         margin-right: 0.25rem;
+    }
+}
+/* Media query rulesets for larger desktops. */
+@media screen and (min-width: 1024px) {
+    /* Header navigation rulesets for desktop. */
+    .nav-item {
+        margin-right: 2rem;
     }
 }

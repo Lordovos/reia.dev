@@ -50,7 +50,9 @@ SQL;
                 is_hidden,
                 is_locked
             FROM
-                articles;
+                articles
+            ORDER BY
+                title ASC;
 SQL;
         $db = \ReiaDev\Database::getInstance()->getConnection();
         $stmt = $db->prepare($sql);

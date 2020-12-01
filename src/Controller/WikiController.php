@@ -61,7 +61,7 @@ class WikiController extends Controller {
     }
     public function publishArticle(): void {
         $csrfToken = $_POST["csrf_token"] ?? "";
-        $title = $_POST["title"] ?? "";
+        $title = trim($_POST["title"]) ?? "";
         $slug = $this->toSlug($title);
         $body = $_POST["body"] ?? null;
         $categories = $_POST["categories"] ?? null;
@@ -80,13 +80,13 @@ class WikiController extends Controller {
                 $this->flash->error("Title must be between " . self::TITLE_MIN_LENGTH . " and " . self::TITLE_MAX_LENGTH . " characters.");
             }
             $articleExists = $this->model->findSlug($slug);
-    
+
             if ($articleExists) {
                 $this->flash->error("An article by this title already exists.");
             }
             if ($categories) {
                 $c = explode(",", $categories);
-    
+
                 foreach ($c as $category) {
                     $categorySlugs[] = $this->toSlug($category);
                 }
@@ -181,7 +181,7 @@ class WikiController extends Controller {
             }
             if ($categories) {
                 $c = explode(",", $categories);
-    
+
                 foreach ($c as $category) {
                     $categorySlugs[] = $this->toSlug($category);
                 }

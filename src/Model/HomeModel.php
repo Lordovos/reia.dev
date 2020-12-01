@@ -11,7 +11,6 @@ class HomeModel extends Model {
     public function search(string $term): array {
         $results = [];
         preg_match("/cat(egory)?:([a-z0-9_-]+)/", $term, $categoryMatch);
-        preg_match("/user:(.*)/", $term, $userMatch);
 
         if ($categoryMatch) {
             $sql = <<<SQL
@@ -42,29 +41,40 @@ SQL;
             $articles = $stmt->fetchAll();
 
             if ($articles) {
-                $results["articles"] = $articles;
+                $results["articles_by_category"] = $articles;
             }
-        }
-        if ($userMatch) {
+        } else {
             $sql = <<<SQL
-                SELECT
-                    id,
-                    username,
-                    email,
-                    role
-                FROM
-                    users
-                WHERE
-                    username ILIKE ?;
+            SELECT
+                a.title,
+                a.slug,
+                a.body,
+                a.categories,
+                a.created_by,
+                a.created_at,
+                a.last_modified_by,
+                a.last_modified_at,
+                a.is_hidden,
+                a.is_locked,
+                u.username AS last_modified_by_username
+            FROM
+                articles a
+                LEFT JOIN
+                    users u
+                    ON a.last_modified_by = u.id
+            WHERE
+                title ILIKE ?
+                OR body ILIKE ?;
 SQL;
             $db = \ReiaDev\Database::getInstance()->getConnection();
             $stmt = $db->prepare($sql);
-            $stmt->bindValue(1, $userMatch[1], \PDO::PARAM_STR);
+            $stmt->bindValue(1, "%" . $term . "%", \PDO::PARAM_STR);
+            $stmt->bindValue(2, "%" . $term . "%", \PDO::PARAM_STR);
             $stmt->execute();
-            $users = $stmt->fetchAll();
+            $articles = $stmt->fetchAll();
 
-            if ($users) {
-                $results["users"] = $users;
+            if ($articles) {
+                $results["articles"] = $articles;
             }
         }
         return $results;
