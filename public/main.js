@@ -59,3 +59,31 @@ let dateTimes = document.querySelectorAll(".datetime");
 dateTimes?.forEach((dateTime) => {
     dateTime.textContent = toLocalTime(dateTime.textContent);
 });
+let imagesToDouble = document.querySelectorAll(".double");
+
+imagesToDouble?.forEach((image) => {
+    image.width = image.width * 2;
+    image.height = image.height * 2;
+});
+let articleCaptions = document.querySelectorAll("blockquote.wiki-article-caption");
+
+articleCaptions?.forEach((caption) => {
+    let captionImage = caption.querySelector("img");
+
+    if (captionImage) {
+        caption.style.width = `${captionImage.width + 18}px`;
+    }
+});
+
+let wikiArticleBody = document.querySelector(".wiki-article-body");
+
+if (wikiArticleBody) {
+    let tables = document.querySelectorAll("table");
+
+    tables?.forEach((table) => {
+        let div = document.createElement("div");
+        div.classList.add("wiki-article-table-container");
+        table.before(div);
+        div.appendChild(table);
+    });
+}

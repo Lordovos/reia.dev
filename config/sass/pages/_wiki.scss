@@ -35,14 +35,14 @@
     }
 }
 .wiki-article-title {
-    text-overflow: ellipsis;
-    white-space: normal;
-    overflow: hidden;
+    overflow-wrap: break-word;
 }
 .wiki-article-body {
     h2 {
         border-bottom: 1px solid $medium-gray;
         margin-bottom: 0.5rem;
+        overflow: hidden;
+        clear: both;
     }
     p:last-child {
         margin: 0;
@@ -52,15 +52,84 @@
     font-style: italic;
     color: $medium-gray;
 }
-.wiki-img-left {
-    float: left;
-    clear: left;
-    margin-right: 1rem;
+blockquote.wiki-article-caption {
+    padding: 0.5rem;
+    border: 1px solid $medium-gray;
+    border-radius: 0.25rem;
+    margin: 0 auto 1rem auto;
+    max-width: 100%;
 }
-.wiki-img-right {
-    float: right;
-    clear: right;
-    margin-left: 1rem;
+p.wiki-article-caption {
+    font-size: 0.75rem;
+    text-align: center;
+    margin-bottom: 0.5rem;
+}
+.wiki-article-caption img {
+    vertical-align: middle;
+    text-align: center;
+}
+.wiki-article-table-container {
+    max-width: 100%;
+}
+.wiki-article-body {
+    table {
+        width: 100%;
+        margin-bottom: 1rem;
+        table-layout: fixed;
+        border-spacing: 0;
+        border: 1px solid $medium-gray;
+        border-radius: 0.25rem;
+
+        thead tr th {
+            border-bottom: 1px solid $medium-gray;
+        }
+        tbody {
+            tr th, td {
+                border-bottom: 1px solid $medium-gray;
+            }
+            th + td {
+                border-left: 1px solid $medium-gray;
+            }
+            td + td {
+                border-left: 1px solid $medium-gray;
+            }
+            tr:last-child th:last-of-type {
+                border-bottom: 0;
+            }
+            tr:last-child td:last-of-type {
+                border-bottom: 0;
+            }
+        }
+        th, td {
+            padding: 0.25rem 0.5rem;
+            overflow-wrap: break-word;
+        }
+        img {
+            vertical-align: middle;
+        }
+    }
+}
+@media screen and (min-width: 768px) {
+    .wiki-article-body {
+        table {
+            max-width: 20rem;
+            float: right;
+            margin-left: 1rem;
+        }
+    }
+    blockquote {
+        &.wiki-article-caption {
+            max-width: 20rem;
+        }
+        &.wiki-article-caption-left {
+            float: left;
+            margin-right: 1rem;
+        }
+        &.wiki-article-caption-right {
+            float: right;
+            margin-left: 1rem;
+        }
+    }
 }
 @media screen and (max-width: 320px) {
     .wiki-nav li:not(:last-child) {
