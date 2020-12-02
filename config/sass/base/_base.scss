@@ -40,6 +40,9 @@ a {
         color: #fff;
     }
 }
+img {
+    image-rendering: pixelated;
+}
 article {
     p {
         line-height: 1.5;

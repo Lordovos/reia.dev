@@ -44,15 +44,26 @@
         border-bottom: 1px solid $medium-gray;
         margin-bottom: 0.5rem;
     }
+    p:last-child {
+        margin: 0;
+    }
+}
+.wiki-article-body-no-content {
+    font-style: italic;
+    color: $medium-gray;
+}
+.wiki-img-left {
+    float: left;
+    clear: left;
+    margin-right: 1rem;
+}
+.wiki-img-right {
+    float: right;
+    clear: right;
+    margin-left: 1rem;
 }
 @media screen and (max-width: 320px) {
-    .wiki-nav {
-        justify-content: space-between;
-    }
     .wiki-nav li:not(:last-child) {
-        margin: 0;
-    }
-    .wiki-nav li.wiki-nav-splitter {
-        margin: 0;
+        margin-right: 0.5rem;
     }
 }

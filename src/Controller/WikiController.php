@@ -28,9 +28,13 @@ class WikiController extends Controller {
     }
     public function readArticle(string $slug): void {
         $article = $this->model->findSlug($slug);
+        $body = null;
         $categories = null;
 
         if ($article) {
+            $parser = new \Netcarver\Textile\Parser();
+            $body = $parser->setDocumentType("html5")->parse(htmlspecialchars($article["body"], ENT_NOQUOTES));
+
             if ($article["categories"]) {
                 $categories = explode(",", $article["categories"]);
             }
@@ -40,6 +44,7 @@ class WikiController extends Controller {
         $this->render("wiki/article.twig", [
             "article" => $article,
             "slug" => $slug,
+            "body" => $body,
             "categories" => $categories
         ]);
     }

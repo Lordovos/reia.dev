@@ -2,7 +2,9 @@
 declare(strict_types=1);
 
 namespace ReiaDev\Controller;
-
+/**
+ * TODO: Show password.
+ */
 class RegisterController extends Controller {
     const USERNAME_MIN_LENGTH = 2;
     const USERNAME_MAX_LENGTH = 24;
