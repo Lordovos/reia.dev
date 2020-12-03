@@ -11,14 +11,26 @@
                 {% if results.articles_by_category|length > 0 %}
                     <ul>
                     {% for article in results.articles_by_category %}
-                        <li><a href="/wiki/{{ article.slug }}">{{ article.title }}</a></li>
+                        {% if not article.is_hidden or (user and user.isAdministrator()) %}
+                            <li><a href="/wiki/{{ article.slug }}">
+                                {% if article.is_hidden %}<i class="las la-eye-slash"></i>{% endif %}
+                                {% if article.is_locked %}<i class="las la-lock"></i>{% endif %}
+                                {{ article.title }}
+                            </a></li>
+                        {% endif %}
                     {% endfor %}
                     </ul>
                 {% endif %}
                 {% if results.articles|length > 0 %}
                     <ul>
                     {% for article in results.articles %}
-                        <li><a href="/wiki/{{ article.slug }}">{{ article.title }}</a></li>
+                        {% if not article.is_hidden or (user and user.isAdministrator()) %}
+                            <li><a href="/wiki/{{ article.slug }}">
+                                {% if article.is_hidden %}<i class="las la-eye-slash"></i>{% endif %}
+                                {% if article.is_locked %}<i class="las la-lock"></i>{% endif %}
+                                {{ article.title }}
+                            </a></li>
+                        {% endif %}
                     {% endfor %}
                     </ul>
                 {% endif %}

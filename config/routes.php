@@ -47,6 +47,9 @@ $router->mount("/wiki", function () use ($router, $controllers) {
     $router->post("/new", function () use ($controllers) {
         $controllers["wiki_controller"]->publishArticle();
     });
+    $router->get("/download/([a-z0-9-]+)", function (string $slug) use ($controllers) {
+        $controllers["wiki_controller"]->download($slug);
+    });
     $router->get("/([a-z0-9-]+)", function (string $slug) use ($controllers) {
         $controllers["wiki_controller"]->readArticle($slug);
     });

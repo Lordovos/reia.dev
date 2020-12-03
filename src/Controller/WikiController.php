@@ -5,6 +5,8 @@ namespace ReiaDev\Controller;
 /**
  * TODO: Add a preview button for articles.
  * TODO: Add revision history.
+ * TODO: Implement invalid link checking for articles.
+ * TODO: Implement a button for downloading articles.
  */
 class WikiController extends Controller {
     const TITLE_MIN_LENGTH = 4;
@@ -218,6 +220,35 @@ class WikiController extends Controller {
             $this->flash->success("Wiki article updated successfully.");
             $this->flash->setMessages();
             header("Location: /wiki/" . $slug);
+        }
+    }
+    public function download(string $slug): void {
+        if (!$this->user) {
+            $this->flash->error("Please log in to view this page.");
+            $this->flash->setMessages();
+            header("Location: /login");
+            exit();
+        }
+        $article = $this->model->findSlug($slug);
+
+        if ($article) {
+            $content = $article["body"];
+
+            if ($content[-1] !== "\n") {
+                $content .= "\n";
+            }
+            header("Content-Description: File Transfer");
+            header("Content-Type: application/octet-stream");
+            header("Content-Disposition: attachment; filename=" . $article["slug"] . ".textile");
+            header("Content-Length: " . strlen($content));
+            header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+            header("Expires: 0");
+            header("pragma: public");
+            echo $content;
+        } else {
+            $this->flash->error("No article found to download.");
+            $this->flash->setMessages();
+            header("Location: /wiki");
         }
     }
 }
