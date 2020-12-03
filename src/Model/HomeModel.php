@@ -97,6 +97,26 @@ SQL;
         $stmt = $db->prepare($sql);
         $stmt->execute([$id]);
     }
+    public function findUploadedImageId(int $id): ?array {
+        $sql = <<<SQL
+            SELECT
+                id,
+                url
+            FROM
+                uploaded_images
+            WHERE
+                id = ?;
+SQL;
+        $db = \ReiaDev\Database::getInstance()->getConnection();
+        $stmt = $db->prepare($sql);
+        $stmt->execute([$id]);
+        $uploadedImage = $stmt->fetch();
+
+        if ($uploadedImage) {
+            return $uploadedImage;
+        }
+        return null;
+    }
     public function findAllUploadedImages(): array {
         $sql = <<<SQL
             SELECT

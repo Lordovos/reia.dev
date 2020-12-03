@@ -25,8 +25,19 @@ class AdminController extends Controller {
         $this->isAdministrator();
 
         $homeModel = new \ReiaDev\Model\HomeModel();
-        $homeModel->removeUploadedImage($id);
-        $this->flash->success("Removed the image successfully.");
+        $uploadedImage = $homeModel->findUploadedImageId($id);
+
+        if ($uploadedImage) {
+            $fileUrl = __DIR__ . "/../../public" . $uploadedImage["url"];
+
+            if (file_exists($fileUrl)) {
+                unlink($fileUrl);
+            }
+            $homeModel->removeUploadedImage($id);
+            $this->flash->success("Removed the image successfully.");
+        } else {
+            $this->flash->error("No image found to delete.");
+        }
         $this->flash->setMessages();
         header("Location: /upload");
     }
