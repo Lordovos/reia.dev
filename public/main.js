@@ -105,3 +105,11 @@ if (wikiArticleBody) {
         request.send();
     });
 }
+let uploadImagesLabel = document.querySelector(".upload-image");
+let uploadImagesInput = document.querySelector("#input-upload");
+
+uploadImagesInput?.addEventListener("change", () => {
+    let uploadImagesFileName = uploadImagesLabel.querySelector(".upload-image-file-name");
+
+    uploadImagesFileName.textContent = `: ${uploadImagesInput.files[0].name}`;
+}, false);

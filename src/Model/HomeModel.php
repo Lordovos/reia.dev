@@ -75,4 +75,36 @@ SQL;
         }
         return $results;
     }
+    public function addUploadedImage(string $url, int $width, int $height, int $createdBy, string $createdAt): void {
+        $sql = <<<SQL
+            INSERT INTO
+                uploaded_images (url, width, height, created_by, created_at)
+            VALUES
+                (?, ?, ?, ?, ?);
+SQL;
+        $db = \ReiaDev\Database::getInstance()->getConnection();
+        $stmt = $db->prepare($sql);
+        $stmt->execute([$url, $width, $height, $createdBy, $createdAt]);
+    }
+    public function findAllUploadedImages(): array {
+        $sql = <<<SQL
+            SELECT
+                ui.id,
+                ui.url,
+                ui.width,
+                ui.height,
+                ui.created_by,
+                ui.created_at,
+                u.username AS created_by_username
+            FROM
+                uploaded_images ui
+                LEFT JOIN
+                    users u
+                    ON ui.created_by = u.id;
+SQL;
+        $db = \ReiaDev\Database::getInstance()->getConnection();
+        $stmt = $db->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetchAll();
+    }
 }

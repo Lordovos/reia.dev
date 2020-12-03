@@ -34,6 +34,12 @@ $router->get("/search/(.*)", function (string $term) use ($controllers) {
 $router->post("/search", function () use ($controllers) {
     $controllers["home_controller"]->newSearch();
 });
+$router->get("/upload", function () use ($controllers) {
+    $controllers["home_controller"]->upload();
+});
+$router->post("/upload", function () use ($controllers) {
+    $controllers["home_controller"]->uploadImage();
+});
 $router->mount("/wiki", function () use ($router, $controllers) {
     $router->get("/", function () use ($controllers) {
         $controllers["wiki_controller"]->index();

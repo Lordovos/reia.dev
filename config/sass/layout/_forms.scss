@@ -14,6 +14,23 @@ label {
     display: block;
     margin-bottom: 0.5rem;
 }
+.form-input-hide {
+    display: none;
+}
+.form-input-label {
+    margin: 0;
+    padding: 0.5rem 1rem;
+    border: 1px solid $medium-gray;
+    border-radius: 0.25rem;
+    max-width: 100%;
+
+    &:hover {
+        border-color: #fff;
+    }
+}
+.upload-image-file-name {
+    overflow-wrap: break-word;
+}
 .form-checkbox-hide {
     display: none;
 }

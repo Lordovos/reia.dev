@@ -18,7 +18,8 @@
             {# Talk pages have not been implemented yet. #}
             {# <li><a href="/wiki/talk/{{ article.slug }}"><i class="las la-comment-alt"></i> <span class="desktop-text">Talk</span></a></li> #}
         {% else %}
-            <li><a href="/wiki/new"><i class="las la-file"></i> <span class="desktop-text">New</span></a></li>
+            <li><a href="/wiki/new/{{ slug }}"><i class="las la-file"></i> <span class="desktop-text">New</span></a></li>
+            <li><a href="/upload"><i class="las la-upload"></i> <span class="desktop-text">Upload</span></a></li>
         {% endif %}
     </ul>
     <hr>

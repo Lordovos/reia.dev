@@ -1,0 +1,36 @@
+{% extends "base.twig" %}
+
+{% block content %}
+    <article>
+        <h1>Uploads</h1>
+        <hr>
+    </article>
+    <form action="/upload" method="post" enctype="multipart/form-data">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+        <div class="form-button-list">
+            <label for="input-upload" class="form-input-label upload-image"><i class="las la-upload"></i> Upload<span class="upload-image-file-name"></span></label>
+            <input type="file" name="upload" class="form-input-hide" id="input-upload" required>
+        </div>
+        <hr>
+        <div class="form-button-list">
+            <button type="submit">Upload Image</button>
+        </div>
+    </form>
+    <hr>
+    {% if uploaded_images|length > 0 %}
+        <article>
+        {% for uploaded_image in uploaded_images %}
+            <section class="uploaded-image">
+                <img src="{{ uploaded_image.url }}" alt="uploaded image" title="uploaded image" width="{{ uploaded_image.width }}" height="{{ uploaded_image.height }}">
+                <p><strong>URL:</strong> {{ uploaded_image.url }}</p>
+                <p><strong>Dimensions:</strong> {{ uploaded_image.width }}x{{ uploaded_image.height }}</p>
+                <p>Uploaded at <span class="datetime">{{ uploaded_image.created_at }}</span> by <a href="/user/{{ uploaded_image.created_by_username }}">{{ uploaded_image.created_by_username }}</a>.</p>
+            </section>
+        {% endfor %}
+        </article>
+    {% else %}
+        <article>
+            <p>No uploaded images found.</p>
+        </article>
+    {% endif %}
+{% endblock %}
