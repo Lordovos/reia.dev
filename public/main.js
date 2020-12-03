@@ -74,9 +74,12 @@ articleCaptions?.forEach((caption) => {
         caption.style.width = `${captionImage.width + 18}px`;
     }
 });
-
 let wikiArticleBody = document.querySelector(".wiki-article-body");
-
+/**
+ * Because Textile has no way to insert div elements, we have to inject one
+ * into the page and then move the adjacent table inside of it. This is to help
+ * with constraining the width of the table on mobile devices.
+ */
 if (wikiArticleBody) {
     let tables = document.querySelectorAll("table");
 

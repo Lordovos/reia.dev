@@ -234,8 +234,15 @@ class WikiController extends Controller {
         if ($article) {
             $content = $article["body"];
 
-            if ($content[-1] !== "\n") {
-                $content .= "\n";
+            if (strlen($content) > 0) {
+                /**
+                 * Append a newline to the end of the file if one is not found.
+                 */
+                if ($content[-1] !== "\n") {
+                    $content .= "\n";
+                }
+            } else {
+                $content = "";
             }
             header("Content-Description: File Transfer");
             header("Content-Type: application/octet-stream");

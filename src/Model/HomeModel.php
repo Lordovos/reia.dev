@@ -2,11 +2,7 @@
 declare(strict_types=1);
 
 namespace ReiaDev\Model;
-/**
- * TODO: General search for basic terms. Currently only supports category and
- * user searches. Also need to research a way to possible simplify the search
- * logic.
- */
+
 class HomeModel extends Model {
     public function search(string $term): array {
         $results = [];
