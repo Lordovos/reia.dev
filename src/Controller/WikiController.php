@@ -5,7 +5,6 @@ namespace ReiaDev\Controller;
 /**
  * TODO: Add a preview button for articles.
  * TODO: Add revision history.
- * TODO: Implement invalid link checking for articles.
  * TODO: Implement a button for downloading articles.
  */
 class WikiController extends Controller {

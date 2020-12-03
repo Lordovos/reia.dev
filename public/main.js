@@ -89,4 +89,19 @@ if (wikiArticleBody) {
         table.before(div);
         div.appendChild(table);
     });
+    let links = wikiArticleBody.querySelectorAll("a");
+
+    links?.forEach((link) => {
+        let request = new XMLHttpRequest();
+
+        request.addEventListener("readystatechange", () => {
+            if (request.readyState === XMLHttpRequest.DONE) {
+                if (request.status === 404) {
+                    link.classList.add("invalid-link");
+                }
+            }
+        }, false);
+        request.open("HEAD", link.href, true);
+        request.send();
+    });
 }

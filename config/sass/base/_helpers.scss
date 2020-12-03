@@ -12,6 +12,10 @@
 .desktop-text {
     display: none;
 }
+.invalid-link {
+    color: $error-red;
+    transition: color 1s;
+}
 @media screen and (min-width: 768px) {
     .desktop-text {
         display: inline;
