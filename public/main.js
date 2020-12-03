@@ -16,8 +16,9 @@ navToggle?.addEventListener("click", () => {
 let wikiHideToggle = document.querySelector(".wiki-hide");
 
 wikiHideToggle?.addEventListener("click", () => {
-    checkbox = document.querySelector("#input-is-hidden");
-    icon = wikiHideToggle.querySelector(".form-checkbox-icon");
+    "use strict";
+    let checkbox = document.querySelector("#input-is-hidden");
+    let icon = wikiHideToggle.querySelector(".form-checkbox-icon");
 
     if (checkbox.checked) {
         icon.classList.remove("la-check-square");
@@ -30,8 +31,9 @@ wikiHideToggle?.addEventListener("click", () => {
 let wikiLockToggle = document.querySelector(".wiki-lock");
 
 wikiLockToggle?.addEventListener("click", () => {
-    checkbox = document.querySelector("#input-is-locked");
-    icon = wikiLockToggle.querySelector(".form-checkbox-icon");
+    "use strict";
+    let checkbox = document.querySelector("#input-is-locked");
+    let icon = wikiLockToggle.querySelector(".form-checkbox-icon");
 
     if (checkbox.checked) {
         icon.classList.remove("la-check-square");
@@ -113,3 +115,16 @@ uploadImagesInput?.addEventListener("change", () => {
 
     uploadImagesFileName.textContent = `: ${uploadImagesInput.files[0].name}`;
 }, false);
+
+let uploadedImageDetails = document.querySelectorAll(".uploaded-image-details");
+
+uploadedImageDetails?.forEach((detail) => {
+    let copyButton = detail.querySelector(".copy-uploaded-image-url");
+    let url = detail.querySelector(".uploaded-image-url");
+
+    copyButton?.addEventListener("click", () => {
+        "use strict";
+        url.select();
+        document.execCommand("copy");
+    }, false);
+});

@@ -94,6 +94,7 @@ class HomeController extends Controller {
             $this->flash->setMessages();
         } elseif (move_uploaded_file($_FILES["upload"]["tmp_name"], $targetFile)) {
             $this->flash->success("Uploaded image " . basename($_FILES["upload"]["name"]) . " successfully.");
+            $this->flash->setMessages();
             $date = new \DateTime("now", new \DateTimeZone("UTC"));
             $this->model->addUploadedImage("/uploads/" . basename($_FILES["upload"]["name"]), $check[0], $check[1], $this->user->id, $date->format("Y-m-d H:i:s"));
         } else {

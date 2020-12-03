@@ -28,9 +28,16 @@
     p {
         margin-bottom: 0;
     }
-    p:last-child {
+    & details > p:last-child {
         margin-top: 1rem;
     }
+    details summary {
+        cursor: pointer;
+    }
+}
+.uploaded-image-url {
+    max-width: 100%;
+    font-family: $code-font-stack;
 }
 @media screen and (min-width: 768px) {
     .desktop-text {
