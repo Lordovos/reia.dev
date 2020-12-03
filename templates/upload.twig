@@ -25,27 +25,19 @@
                     <summary><img src="{{ uploaded_image.url }}" alt="uploaded image" title="uploaded image" width="32" height="32"></summary>
                     <hr>
                     <img src="{{ uploaded_image.url }}" alt="uploaded image" title="uploaded image" width="{{ uploaded_image.width }}" height="{{ uploaded_image.height }}">
-                    {# <p><strong>URL:</strong> {{ uploaded_image.url }}</p> #}
                     <p><code>{{ uploaded_image.width }}x{{ uploaded_image.height }}</code></p>
                     <hr>
-                    {# <p class="uploaded-image-url"><code>{{ uploaded_image.url }}</code></p> #}
                     <input type="text" class="uploaded-image-url" size="40" value="{{ uploaded_image.url }}">
                     <hr>
                     <div class="form-button-list">
                         <button class="copy-uploaded-image-url"><i class="las la-copy"></i> <span class="desktop-text">Copy</span></button>
-                        <p class="form-button-cancel"><a href="/admin/uploaded-images/delete/{{ uploaded_image.url }}"><i class="las la-trash-alt"></i> <span class="desktop-text">Delete</span></a></p>
+                        {% if user and user.isAdministrator() %}
+                            <p class="form-button form-button-error"><a href="/admin/uploaded-images/delete/{{ uploaded_image.id }}"><i class="las la-trash-alt"></i> <span class="desktop-text">Delete</span></a></p>
+                        {% endif %}
                     </div>
                     <p>Uploaded at <span class="datetime">{{ uploaded_image.created_at }}</span> by <a href="/user/{{ uploaded_image.created_by_username }}">{{ uploaded_image.created_by_username }}</a>.</p>
                 </details>
             </section>
-{#}
-            <section class="uploaded-image">
-                <img src="{{ uploaded_image.url }}" alt="uploaded image" title="uploaded image" width="{{ uploaded_image.width }}" height="{{ uploaded_image.height }}">
-                <p><strong>URL:</strong> {{ uploaded_image.url }}</p>
-                <p><strong>Dimensions:</strong> {{ uploaded_image.width }}x{{ uploaded_image.height }}</p>
-                <p>Uploaded at <span class="datetime">{{ uploaded_image.created_at }}</span> by <a href="/user/{{ uploaded_image.created_by_username }}">{{ uploaded_image.created_by_username }}</a>.</p>
-            </section>
-#}
         {% endfor %}
         </article>
     {% else %}

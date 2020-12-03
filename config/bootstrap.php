@@ -24,7 +24,8 @@ $controllers = [
     "register_controller" => new \ReiaDev\Controller\RegisterController(new \ReiaDev\Model\RegisterModel(), $twig, $flash, $csrfToken),
     "login_controller" => new \ReiaDev\Controller\LoginController(new \ReiaDev\Model\LoginModel(), $twig, $flash, $csrfToken),
     "user_controller" => new \ReiaDev\Controller\UserController(new \ReiaDev\Model\UserModel(), $twig, $flash),
-    "wiki_controller" => new \ReiaDev\Controller\WikiController(new \ReiaDev\Model\WikiModel(), $twig, $flash, $csrfToken)
+    "wiki_controller" => new \ReiaDev\Controller\WikiController(new \ReiaDev\Model\WikiModel(), $twig, $flash, $csrfToken),
+    "admin_controller" => new \ReiaDev\Controller\AdminController(new \ReiaDev\Model\Model(), $twig, $flash)
 ];
 $router = new \Bramus\Router\Router();
 require_once __DIR__ . "/routes.php";

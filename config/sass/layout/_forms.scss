@@ -57,22 +57,40 @@ label {
         margin-right: 1rem;
     }
 }
-.form-button-cancel {
-    margin-left: 1rem;
+.form-button {
     border: 1px solid $medium-gray;
     border-radius: 0.25rem;
 
     &:hover {
-        border-color: $error-red;
+        border-color: #fff;
+    }
+    &:not(:first-child) {
+        margin-left: 1rem;
     }
     a {
         display: block;
-        color: $error-red;
+        color: #fff;
         padding: 0.5rem 1rem;
 
         &:hover {
             text-decoration: none;
         }
+    }
+}
+.form-button-success {
+    &:hover {
+        border-color: $success-green;
+    }
+    a {
+        color: $success-green;
+    }
+}
+.form-button-error {
+    &:hover {
+        border-color: $error-red;
+    }
+    a {
+        color: $error-red;
     }
 }
 @media screen and (min-width: 768px) {

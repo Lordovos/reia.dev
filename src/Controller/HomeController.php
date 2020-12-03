@@ -40,12 +40,8 @@ class HomeController extends Controller {
         header("Location: /search/" . $term);
     }
     public function upload(): void {
-        if (!$this->user) {
-            $this->flash->error("Please log in to view this page.");
-            $this->flash->setMessages();
-            header("Location: /login");
-            exit();
-        }
+        $this->hasUser();
+
         $uploadedImages = $this->model->findAllUploadedImages();
 
         $this->render("upload.twig", [

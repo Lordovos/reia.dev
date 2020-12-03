@@ -7,6 +7,9 @@
             <li class="nav-item"><a href="/wiki">Wiki</a></li>
             {% if user %}
                 <li class="nav-item"><a href="/user/{{ user.username }}">Profile</a></li>
+                {% if user.isAdministrator() %}
+                    <li class="nav-item"><a href="/admin">Admin</a></li>
+                {% endif %}
                 <li class="nav-item"><a href="/logout">Logout</a></li>
             {% else %}
                 <li class="nav-item"><a href="/register">Sign Up</a></li>

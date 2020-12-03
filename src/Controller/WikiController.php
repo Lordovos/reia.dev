@@ -52,13 +52,8 @@ class WikiController extends Controller {
     public function newArticle(string $slug): void {
         $formInput = $_SESSION["form_input"] ?? null;
         unset($_SESSION["form_input"]);
+        $this->hasUser();
 
-        if (!$this->user) {
-            $this->flash->error("Please log in to view this page.");
-            $this->flash->setMessages();
-            header("Location: /login");
-            exit();
-        }
         $this->render("wiki/new.twig", [
             "slug" => $slug,
             "form_input" => $formInput,
@@ -132,13 +127,8 @@ class WikiController extends Controller {
     public function editArticle(string $slug): void {
         $formInput = $_SESSION["form_input"] ?? null;
         unset($_SESSION["form_input"]);
+        $this->hasUser();
 
-        if (!$this->user) {
-            $this->flash->error("Please log in to view this page.");
-            $this->flash->setMessages();
-            header("Location: /login");
-            exit();
-        }
         $article = $this->model->findSlug($slug);
 
         if ($article && $article["is_locked"]) {
@@ -222,12 +212,8 @@ class WikiController extends Controller {
         }
     }
     public function download(string $slug): void {
-        if (!$this->user) {
-            $this->flash->error("Please log in to view this page.");
-            $this->flash->setMessages();
-            header("Location: /login");
-            exit();
-        }
+        $this->hasUser();
+
         $article = $this->model->findSlug($slug);
 
         if ($article) {

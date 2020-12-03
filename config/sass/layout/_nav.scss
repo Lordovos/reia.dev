@@ -60,7 +60,7 @@
     padding: 0.5rem 1rem;
     border-radius: 0 0.25rem 0.25rem 0;
 }
-@media screen and (min-width: 768px) {
+@media screen and (min-width: 1024px) {
     .nav {
         flex-direction: row;
         justify-content: flex-end;
@@ -79,7 +79,7 @@
     .nav-item {
         display: block;
         align-self: center;
-        margin-right: 1.5rem;
+        margin-right: 2rem;
 
         &:last-child {
             margin-right: 0;
@@ -87,10 +87,5 @@
     }
     .nav-search {
         margin: 0;
-    }
-}
-@media screen and (min-width: 1024px) {
-    .nav-item {
-        margin-right: 2rem;
     }
 }

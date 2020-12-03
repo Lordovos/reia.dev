@@ -39,11 +39,34 @@ class Controller {
 
             if ($user) {
                 $this->user = new \ReiaDev\User($user["id"], $user["username"], $user["email"], $user["role"]);
+                /**
+                 * If a user is banned while logged in, we force them to
+                 * logout.
+                 */
+                if ($this->user->role === \ReiaDev\Role::BANNED_USER) {
+                    header("Location: /logout");
+                }
             } else {
                 $this->user = null;
             }
         } else {
             $this->user = null;
+        }
+    }
+    protected function hasUser(): void {
+        if (!$this->user) {
+            $this->flash->error("Please log in to view this page.");
+            $this->flash->setMessages();
+            header("Location: /login");
+            exit();
+        }
+    }
+    protected function isAdministrator(): void {
+        if (!$this->user->isAdministrator()) {
+            $this->flash->error("You're not authorized to view this page.");
+            $this->flash->setMessages();
+            header("Location: /");
+            exit();
         }
     }
     /**

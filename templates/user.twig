@@ -6,6 +6,18 @@
             <h1>{{ profile.username }}</h1>
             <hr>
             <p><strong>Joined:</strong> <span class="datetime">{{ profile.join_date }}</span></p>
+            {% if user and user.isAdministrator() %}
+                <hr>
+                <div class="form-button-list">
+                    {% if profile.role == -1 %}
+                        <p class="form-button form-button-success"><a href="/admin/user/unban/{{ profile.id }}"><i class="las la-check-circle"></i> <span class="desktop-text">Unban</span></a></p>
+                    {% elseif profile.role == 0 %}
+                        <p class="form-button form-button-success"><a href="/admin/user/verify/{{ profile.id }}"><i class="las la-check"></i> <span class="desktop-text">Verify</span></a></p>
+                    {% elseif profile.role == 1 %}
+                        <p class="form-button form-button-error"><a href="/admin/user/ban/{{ profile.id }}"><i class="las la-ban"></i> <span class="desktop-text">Ban</span></a></p>
+                    {% endif %}
+                </div>
+            {% endif %}
         </article>
     {% else %}
         <article>

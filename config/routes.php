@@ -40,6 +40,23 @@ $router->get("/upload", function () use ($controllers) {
 $router->post("/upload", function () use ($controllers) {
     $controllers["home_controller"]->uploadImage();
 });
+$router->mount("/admin", function () use ($router, $controllers) {
+    $router->get("/", function () use ($controllers) {
+        $controllers["admin_controller"]->index();
+    });
+    $router->get("/uploaded-images/delete/(\d+)", function (int $id) use ($controllers) {
+        $controllers["admin_controller"]->deleteUploadedImage($id);
+    });
+    $router->get("/user/ban/(\d+)", function (int $id) use ($controllers) {
+        $controllers["admin_controller"]->banUser($id);
+    });
+    $router->get("/user/unban/(\d+)", function (int $id) use ($controllers) {
+        $controllers["admin_controller"]->unbanUser($id);
+    });
+    $router->get("/user/verify/(\d+)", function (int $id) use ($controllers) {
+        $controllers["admin_controller"]->verifyUser($id);
+    });
+});
 $router->mount("/wiki", function () use ($router, $controllers) {
     $router->get("/", function () use ($controllers) {
         $controllers["wiki_controller"]->index();

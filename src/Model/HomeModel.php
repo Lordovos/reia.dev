@@ -86,6 +86,17 @@ SQL;
         $stmt = $db->prepare($sql);
         $stmt->execute([$url, $width, $height, $createdBy, $createdAt]);
     }
+    public function removeUploadedImage(int $id): void {
+        $sql = <<<SQL
+            DELETE FROM
+                uploaded_images
+            WHERE
+                id = ?;
+SQL;
+        $db = \ReiaDev\Database::getInstance()->getConnection();
+        $stmt = $db->prepare($sql);
+        $stmt->execute([$id]);
+    }
     public function findAllUploadedImages(): array {
         $sql = <<<SQL
             SELECT
