@@ -33,7 +33,7 @@ class LoginController extends Controller {
     }
     public function login(): void {
         $csrfToken = $_POST["csrf_token"] ?? "";
-        $username = $_POST["username"] ?? "";
+        $username = trim($_POST["username"]) ?? "";
         $password = $_POST["password"] ?? "";
         $user = null;
 

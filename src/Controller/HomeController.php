@@ -52,7 +52,7 @@ class HomeController extends Controller {
     public function uploadImage(): void {
         $csrfToken = $_POST["csrf_token"] ?? "";
         $targetDir = $_SERVER["DOCUMENT_ROOT"] . "/uploads/";
-    
+
         if (!file_exists($targetDir)) {
             mkdir($targetDir, 0777);
         }
@@ -66,10 +66,10 @@ class HomeController extends Controller {
         $uploadValid = true;
         $imageFileType = strtolower(pathinfo($targetFile, PATHINFO_EXTENSION));
         $check = getimagesize($_FILES["upload"]["tmp_name"]);
-    
+
         if ($this->csrfToken->verify($csrfToken)) {
             $uploadValid = ($check ? true : false);
-    
+
             if (file_exists($targetFile)) {
                 $this->flash->error("An image already exists.");
                 $uploadValid = false;
