@@ -6,7 +6,6 @@
         <hr>
         {% if term %}
             <p>Fetching results for &quot;{{ term }}&quot;...</p>
-
             {% if results|length > 0 %}
                 {% if results.articles_by_category|length > 0 %}
                     <ul>

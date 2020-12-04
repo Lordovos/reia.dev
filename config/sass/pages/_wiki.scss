@@ -44,36 +44,13 @@
         overflow: hidden;
         clear: both;
     }
-    p {
+    p, ol, ul, blockquote, pre {
         margin-bottom: 1rem;
+
+        &:last-child {
+            margin-bottom: 0;
+        }
     }
-    p:last-child {
-        margin: 0;
-    }
-}
-.wiki-article-body-no-content {
-    font-style: italic;
-    color: $medium-gray;
-}
-blockquote.wiki-article-caption {
-    padding: 0.5rem;
-    border: 1px solid $medium-gray;
-    border-radius: 0.25rem;
-    margin: 0 auto 1rem auto;
-    max-width: 100%;
-}
-p.wiki-article-caption {
-    font-size: 0.75rem;
-    text-align: center;
-    margin-bottom: 0.5rem;
-}
-.wiki-article-caption img {
-    text-align: center;
-}
-.wiki-article-table-container {
-    max-width: 100%;
-}
-.wiki-article-body {
     table {
         width: 100%;
         margin-bottom: 1rem;
@@ -107,6 +84,28 @@ p.wiki-article-caption {
             overflow-wrap: break-word;
         }
     }
+}
+.wiki-article-body-no-content {
+    font-style: italic;
+    color: $medium-gray;
+}
+blockquote.wiki-article-caption {
+    padding: 0.5rem;
+    border: 1px solid $medium-gray;
+    border-radius: 0.25rem;
+    margin: 0 auto 1rem auto;
+    max-width: 100%;
+}
+p.wiki-article-caption {
+    font-size: 0.75rem;
+    text-align: center;
+    margin-bottom: 0.5rem;
+}
+.wiki-article-caption img {
+    text-align: center;
+}
+.wiki-article-table-container {
+    max-width: 100%;
 }
 @media screen and (min-width: 768px) {
     .wiki-article-body {

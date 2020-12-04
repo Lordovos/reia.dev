@@ -9,8 +9,14 @@
     box-shadow: 0 0 0.60rem #000;
     z-index: 1;
 }
-.paragraph p {
-    margin-bottom: 1rem;
+.article {
+    p, ol, ul, blockquote, pre {
+        margin-bottom: 1rem;
+
+        &:last-child {
+            margin-bottom: 0;
+        }
+    }
 }
 .desktop-text {
     display: none;
