@@ -20,6 +20,10 @@ class RegisterController extends Controller {
         }
     }
     public function index(): void {
+        $formConstraints = [
+            "username_min_max_length" => "{" . self::USERNAME_MIN_LENGTH . "," . self::USERNAME_MAX_LENGTH . "}",
+            "password_min_length" => self::PASSWORD_MIN_LENGTH
+        ];
         $formInput = $_SESSION["form_input"] ?? null;
         unset($_SESSION["form_input"]);
 
@@ -30,15 +34,16 @@ class RegisterController extends Controller {
             exit();
         }
         $this->render("register.twig", [
+            "form_constraints" => $formConstraints,
             "form_input" => $formInput,
             "csrf_token" => $this->csrfToken->get()
         ]);
     }
     public function register(): void {
-        $csrfToken = $_POST["csrf_token"] ?? null;
-        $username = $_POST["username"] ?? null;
-        $password = $_POST["password"] ?? null;
-        $email = $_POST["email"] ?? null;
+        $csrfToken = $_POST["csrf_token"] ?? "";
+        $username = trim($_POST["username"]) ?? "";
+        $password = $_POST["password"] ?? "";
+        $email = $_POST["email"] ?? "";
 
         if ($this->csrfToken->verify($csrfToken)) {
             if (!$username) {

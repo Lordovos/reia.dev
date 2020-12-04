@@ -50,12 +50,17 @@ class WikiController extends Controller {
         ]);
     }
     public function newArticle(string $slug): void {
+        $formConstraints = [
+            "title_min_length" => self::TITLE_MIN_LENGTH,
+            "title_max_length" => self::TITLE_MAX_LENGTH
+        ];
         $formInput = $_SESSION["form_input"] ?? null;
         unset($_SESSION["form_input"]);
         $this->hasUser();
 
         $this->render("wiki/new.twig", [
             "slug" => $slug,
+            "form_constraints" => $formConstraints,
             "form_input" => $formInput,
             "csrf_token" => $this->csrfToken->get()
         ]);
@@ -64,8 +69,8 @@ class WikiController extends Controller {
         $csrfToken = $_POST["csrf_token"] ?? "";
         $title = trim($_POST["title"]) ?? "";
         $slug = $this->toSlug($title);
-        $body = $_POST["body"] ?? null;
-        $categories = $_POST["categories"] ?? null;
+        $body = $_POST["body"] ?? "";
+        $categories = $_POST["categories"] ?? "";
         $categorySlugs = [];
         $isHidden = null;
         $isLocked = null;
@@ -151,8 +156,8 @@ class WikiController extends Controller {
     public function updateArticle(string $slug): void {
         $csrfToken = $_POST["csrf_token"] ?? "";
         $article = $this->model->findSlug($slug);
-        $body = $_POST["body"] ?? null;
-        $categories = $_POST["categories"] ?? null;
+        $body = $_POST["body"] ?? "";
+        $categories = $_POST["categories"] ?? "";
         $categorySlugs = [];
         $isHidden = null;
         $isLocked = null;

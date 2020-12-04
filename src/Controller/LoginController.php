@@ -32,10 +32,9 @@ class LoginController extends Controller {
         ]);
     }
     public function login(): void {
-        $csrfToken = $_POST["csrf_token"] ?? null;
-        $username = $_POST["username"] ?? null;
-        $password = $_POST["password"] ?? null;
-        $email = $_POST["email"] ?? null;
+        $csrfToken = $_POST["csrf_token"] ?? "";
+        $username = $_POST["username"] ?? "";
+        $password = $_POST["password"] ?? "";
         $user = null;
 
         if ($this->csrfToken->verify($csrfToken)) {

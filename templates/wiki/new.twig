@@ -5,7 +5,7 @@
         <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
         <div class="form-group">
             <label for="input-title">Title</label>
-            <input type="text" name="title" id="input-title" size="80" value="{{ form_input ? form_input.title : slug }}" required>
+            <input type="text" name="title" id="input-title" size="80" minlength="{{ form_constraints.title_min_length }}" maxlength="{{ form_constraints.title_max_length }}" value="{{ form_input ? form_input.title : slug }}" required>
         </div>
         <div class="form-group">
             <label for="input-body">Body</label>
