@@ -11,22 +11,27 @@ class HomeModel extends Model {
         if ($categoryMatch) {
             $sql = <<<SQL
                 SELECT
+                    a.id,
                     a.title,
                     a.slug,
-                    a.body,
                     a.categories,
-                    a.created_by,
-                    a.created_at,
-                    a.last_modified_by,
-                    a.last_modified_at,
                     a.is_hidden,
                     a.is_locked,
-                    u.username AS last_modified_by_username
+                    a.latest_revision,
+                    r.id AS revision_id,
+                    r.body,
+                    r.reason,
+                    r.created_by,
+                    r.created_at,
+                    u.username AS created_by_username
                 FROM
                     articles a
                     LEFT JOIN
+                        revisions r
+                        ON a.latest_revision = r.id
+                    LEFT JOIN
                         users u
-                        ON a.last_modified_by = u.id
+                        ON r.created_by = u.id
                 WHERE
                     position(? IN a.categories) > 0;
 SQL;
@@ -41,26 +46,31 @@ SQL;
             }
         } else {
             $sql = <<<SQL
-            SELECT
-                a.title,
-                a.slug,
-                a.body,
-                a.categories,
-                a.created_by,
-                a.created_at,
-                a.last_modified_by,
-                a.last_modified_at,
-                a.is_hidden,
-                a.is_locked,
-                u.username AS last_modified_by_username
-            FROM
-                articles a
-                LEFT JOIN
-                    users u
-                    ON a.last_modified_by = u.id
-            WHERE
-                title ILIKE ?
-                OR body ILIKE ?;
+                SELECT
+                    a.id,
+                    a.title,
+                    a.slug,
+                    a.categories,
+                    a.is_hidden,
+                    a.is_locked,
+                    a.latest_revision,
+                    r.id AS revision_id,
+                    r.body,
+                    r.reason,
+                    r.created_by,
+                    r.created_at,
+                    u.username AS created_by_username
+                FROM
+                    articles a
+                    LEFT JOIN
+                        revisions r
+                        ON a.latest_revision = r.id
+                    LEFT JOIN
+                        users u
+                        ON r.created_by = u.id
+                WHERE
+                    title ILIKE ?
+                    OR body ILIKE ?;
 SQL;
             $db = \ReiaDev\Database::getInstance()->getConnection();
             $stmt = $db->prepare($sql);

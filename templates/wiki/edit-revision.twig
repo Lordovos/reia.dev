@@ -1,0 +1,20 @@
+{% extends "base.twig" %}
+
+{% block content %}
+    {% if article %}
+        <article class="wiki-article">
+            <h1 class="wiki-article-title">{{ article.title }}</h1>
+            <hr>
+            <p class="alert alert-warning"><i class="las la-exclamation-triangle"></i> You're currently viewing an older revision of this article. Edit mode is set to read-only.</p>
+        </article>
+        <div class="wiki-article-body-read-only">
+            <label for="input-body">Body</label>
+            <textarea name="body" id="input-body" rows="30" cols="120">{{ article.body }}</textarea>
+        </div>
+        <hr>
+        <div class="form-button-list">
+            <button class="copy-wiki-article-body"><i class="las la-copy"></i> <span class="desktop-text">Copy</span></button>
+            <p class="form-button form-button-error"><a href="/wiki/{{ article.slug }}/revision/{{ article.revision_id }}"><i class="las la-times"></i> <span class="desktop-text">Cancel</span></a></p>
+        </div>
+    {% endif %}
+{% endblock %}

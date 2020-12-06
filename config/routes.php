@@ -71,16 +71,25 @@ $router->mount("/wiki", function () use ($router, $controllers) {
         $controllers["wiki_controller"]->publishArticle();
     });
     $router->get("/download/([a-z0-9-]+)", function (string $slug) use ($controllers) {
-        $controllers["wiki_controller"]->download($slug);
+        $controllers["wiki_controller"]->downloadArticle($slug);
+    });
+    $router->get("/history/([a-z0-9-]+)", function (string $slug) use ($controllers) {
+        $controllers["wiki_controller"]->articleHistory($slug);
     });
     $router->get("/([a-z0-9-]+)", function (string $slug) use ($controllers) {
         $controllers["wiki_controller"]->readArticle($slug);
+    });
+    $router->get("/([a-z0-9-]+)/revision/(\d+)", function (string $slug, int $revisionId) use ($controllers) {
+        $controllers["wiki_controller"]->readArticleRevision($slug, $revisionId);
     });
     $router->get("/edit/([a-z0-9-]+)", function (string $slug) use ($controllers) {
         $controllers["wiki_controller"]->editArticle($slug);
     });
     $router->post("/edit/([a-z0-9-]+)", function (string $slug) use ($controllers) {
         $controllers["wiki_controller"]->updateArticle($slug);
+    });
+    $router->get("/edit/([a-z0-9-]+)/revision/(\d+)", function (string $slug, int $revisionId) use ($controllers) {
+        $controllers["wiki_controller"]->editArticleRevision($slug, $revisionId);
     });
 });
 $router->set404(function () use ($controllers) {

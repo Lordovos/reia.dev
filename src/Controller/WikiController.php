@@ -33,9 +33,14 @@ class WikiController extends Controller {
         $categories = null;
 
         if ($article) {
-            $parser = new \Netcarver\Textile\Parser();
-            $body = $parser->setDocumentType("html5")->parse(htmlspecialchars($article["body"], ENT_NOQUOTES));
-
+            if (!$article["latest_revision"]) {
+                $this->flash->error("No latest revision set. Please report this issue to an administrator.");
+                $this->flash->setMessages();
+            }
+            if ($article["body"]) {
+                $parser = new \Netcarver\Textile\Parser();
+                $body = $parser->setDocumentType("html5")->parse(htmlspecialchars($article["body"], ENT_NOQUOTES));
+            }
             if ($article["categories"]) {
                 $categories = explode(",", $article["categories"]);
             }
@@ -46,6 +51,59 @@ class WikiController extends Controller {
             "article" => $article,
             "slug" => $slug,
             "body" => $body,
+            "categories" => $categories
+        ]);
+    }
+    public function readArticleRevision(string $slug, int $revisionId): void {
+        $article = $this->model->findRevisionId($slug, $revisionId);
+        $body = null;
+        $categories = null;
+
+        if ($article) {
+            if ($article["revision_article_id"] !== $article["id"]) {
+                $this->flash->error("The revision you're trying to view is not associated with this article.");
+                $this->flash->setMessages();
+                header("Location: /wiki/" . $slug);
+                exit();
+            }
+            if ($article["body"]) {
+                $parser = new \Netcarver\Textile\Parser();
+                $body = $parser->setDocumentType("html5")->parse(htmlspecialchars($article["body"], ENT_NOQUOTES));
+            }
+            if ($article["categories"]) {
+                $categories = explode(",", $article["categories"]);
+            }
+        } else {
+            header("HTTP/1.1 404 Not Found");
+        }
+        $this->render("wiki/article.twig", [
+            "article" => $article,
+            "slug" => $slug,
+            "body" => $body,
+            "categories" => $categories
+        ]);
+    }
+    public function articleHistory(string $slug): void {
+        $article = $this->model->findSlug($slug);
+        $revisions = null;
+        $categories = null;
+
+        if ($article) {
+            $revisions = $this->model->getRevisions($article["id"]);
+
+            if ($article["categories"]) {
+                $categories = explode(",", $article["categories"]);
+            }
+        } else {
+            $this->flash->error("No revision history found.");
+            $this->flash->setMessages();
+            header("Location: /wiki/" . $slug);
+            exit();
+        }
+        $this->render("/wiki/history.twig", [
+            "article" => $article,
+            "slug" => $slug,
+            "revisions" => $revisions,
             "categories" => $categories
         ]);
     }
@@ -116,7 +174,9 @@ class WikiController extends Controller {
             header("Location: /wiki/new/" . $title);
         } else {
             $date = new \DateTime("now", new \DateTimeZone("UTC"));
-            $this->model->addArticle($title, $slug, $body, implode(",", $categorySlugs), $this->user->id, $date->format("Y-m-d H:i:s"));
+            $article = $this->model->addArticle($title, $slug, implode(",", $categorySlugs));
+            $revision = $this->model->addRevision($body, "Initial revision.", $this->user->id, $date->format("Y-m-d H:i:s"), $article["id"]);
+            $this->model->setLatestRevision($revision["id"], $article["id"]);
 
             if ($this->user->isAdministrator()) {
                 $isHidden = ($isHidden === "yes" ? 1 : 0);
@@ -153,12 +213,33 @@ class WikiController extends Controller {
             "csrf_token" => $this->csrfToken->get()
         ]);
     }
+    public function editArticleRevision(string $slug, int $revisionId): void {
+        $this->hasUser();
+
+        $article = $this->model->findRevisionId($slug, $revisionId);
+
+        if ($article) {
+            if ($article["revision_article_id"] !== $article["id"]) {
+                $this->flash->error("The revision you're trying to edit is not associated with this article.");
+                $this->flash->setMessages();
+                header("Location: /wiki/" . $slug);
+                exit();
+            }
+        } else {
+            header("Location: /wiki/" . $slug);
+        }
+        $this->render("wiki/edit-revision.twig", [
+            "article" => $article,
+            "slug" => $slug
+        ]);
+    }
     public function updateArticle(string $slug): void {
         $csrfToken = $_POST["csrf_token"] ?? "";
         $article = $this->model->findSlug($slug);
         $body = $_POST["body"] ?? "";
         $categories = $_POST["categories"] ?? "";
         $categorySlugs = [];
+        $reason = $_POST["reason"] ?? "";
         $isHidden = null;
         $isLocked = null;
 
@@ -187,6 +268,9 @@ class WikiController extends Controller {
                     $categorySlugs[] = $this->toSlug($category);
                 }
             }
+            if (!$reason) {
+                $this->flash->error("Please give a reason for editing the article.");
+            }
         } else {
             $this->flash->error("Possible Cross-Site Request Forgery. Please contact the server administrator.");
         }
@@ -194,7 +278,8 @@ class WikiController extends Controller {
             $this->flash->setMessages();
             $_SESSION["form_input"] = [
                 "body" => $body,
-                "categories" => $categories
+                "categories" => $categories,
+                "reason" => $reason
             ];
             if ($this->user->isAdministrator()) {
                 $_SESSION["form_input"][] = [
@@ -205,8 +290,12 @@ class WikiController extends Controller {
             header("Location: /wiki/edit/" . $slug);
         } else {
             $date = new \DateTime("now", new \DateTimeZone("UTC"));
-            $this->model->updateArticle($body, implode(",", $categorySlugs), $this->user->id, $date->format("Y-m-d H:i:s"), $slug);
+            $article = $this->model->updateArticle(implode(",", $categorySlugs), $slug);
 
+            if ($article) {
+                $revision = $this->model->addRevision($body, $reason, $this->user->id, $date->format("Y-m-d H:i:s"), $article["id"]);
+                $this->model->setLatestRevision($revision["id"], $article["id"]);
+            }
             if ($this->user->isAdministrator()) {
                 $this->model->hideArticle($isHidden, $slug);
                 $this->model->lockArticle($isLocked, $slug);
@@ -216,7 +305,7 @@ class WikiController extends Controller {
             header("Location: /wiki/" . $slug);
         }
     }
-    public function download(string $slug): void {
+    public function downloadArticle(string $slug): void {
         $this->hasUser();
 
         $article = $this->model->findSlug($slug);

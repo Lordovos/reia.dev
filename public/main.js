@@ -104,7 +104,7 @@ if (wikiArticleBody) {
             }
         }, false);
         request.open("HEAD", link.href, true);
-        request.send();
+        request.send(null);
     });
 }
 let uploadImagesLabel = document.querySelector(".upload-image");
@@ -128,3 +128,15 @@ uploadedImageDetails?.forEach((detail) => {
         document.execCommand("copy");
     }, false);
 });
+let wikiArticleBodyReadOnly = document.querySelector(".wiki-article-body-read-only");
+
+if (wikiArticleBodyReadOnly) {
+    let copyButton = document.querySelector(".copy-wiki-article-body");
+    let body = wikiArticleBodyReadOnly.querySelector("#input-body");
+
+    copyButton?.addEventListener("click", () => {
+        "use strict";
+        body.select();
+        document.execCommand("copy");
+    }, false);
+}
