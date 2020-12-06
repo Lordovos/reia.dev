@@ -4,11 +4,11 @@
     <form action="/login" method="post">
         <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
         <div class="form-group">
-            <label for="input-username">Username</label>
+            <label for="input-username">Username <span class="form-required">(required)</span></label>
             <input type="text" name="username" id="input-username" size="40" value="{{ form_input ? form_input.username : null }}" required>
         </div>
         <div>
-            <label for="input-password">Password</label>
+            <label for="input-password">Password <span class="form-required">(required)</span></label>
             <input type="password" name="password" id="input-password" size="40" required>
         </div>
         <hr>

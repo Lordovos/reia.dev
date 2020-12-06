@@ -4,15 +4,15 @@
     <form action="/register" method="post">
         <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
         <div class="form-group">
-            <label for="input-username">Username</label>
+            <label for="input-username">Username <span class="form-required">(required)</span></label>
             <input type="text" name="username" id="input-username" pattern="[a-zA-Z0-9_-]{{ form_constraints.username_min_max_length }}" size="40" value="{{ form_input ? form_input.username : null }}" required>
         </div>
         <div class="form-group">
-            <label for="input-password">Password</label>
+            <label for="input-password">Password <span class="form-required">(required)</span></label>
             <input type="password" name="password" id="input-password" size="40" minlength="{{ form_constraints.password_min_length }}" required>
         </div>
         <div>
-            <label for="input-email">Email Address</label>
+            <label for="input-email">Email Address <span class="form-required">(required)</span></label>
             <input type="email" name="email" id="input-email" size="40" value="{{ form_input ? form_input.email : null }}" required>
         </div>
         <hr>

@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace ReiaDev\Controller;
 /**
  * TODO: Add a preview button for articles.
- * TODO: Add revision history.
  * TODO: Implement a button for downloading articles.
  */
 class WikiController extends Controller {
@@ -268,9 +267,6 @@ class WikiController extends Controller {
                     $categorySlugs[] = $this->toSlug($category);
                 }
             }
-            if (!$reason) {
-                $this->flash->error("Please give a reason for editing the article.");
-            }
         } else {
             $this->flash->error("Possible Cross-Site Request Forgery. Please contact the server administrator.");
         }
@@ -290,9 +286,9 @@ class WikiController extends Controller {
             header("Location: /wiki/edit/" . $slug);
         } else {
             $date = new \DateTime("now", new \DateTimeZone("UTC"));
-            $article = $this->model->updateArticle(implode(",", $categorySlugs), $slug);
+            $updatedArticle = $this->model->updateArticle(implode(",", $categorySlugs), $slug);
 
-            if ($article) {
+            if ($updatedArticle && $body !== $article["body"]) {
                 $revision = $this->model->addRevision($body, $reason, $this->user->id, $date->format("Y-m-d H:i:s"), $article["id"]);
                 $this->model->setLatestRevision($revision["id"], $article["id"]);
             }

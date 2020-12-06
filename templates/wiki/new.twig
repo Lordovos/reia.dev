@@ -4,7 +4,7 @@
     <form action="/wiki/new" method="post">
         <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
         <div class="form-group">
-            <label for="input-title">Title</label>
+            <label for="input-title">Title <span class="form-required">(required)</span></label>
             <input type="text" name="title" id="input-title" size="80" minlength="{{ form_constraints.title_min_length }}" maxlength="{{ form_constraints.title_max_length }}" value="{{ form_input ? form_input.title : slug }}" required>
         </div>
         <div class="form-group">

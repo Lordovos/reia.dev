@@ -111,7 +111,9 @@ SQL;
                     users u
                     ON r.created_by = u.id
             WHERE
-                r.article_id = ?;
+                r.article_id = ?
+            ORDER BY
+                created_at DESC;
 SQL;
         $db = \ReiaDev\Database::getInstance()->getConnection();
         $stmt = $db->prepare($sql);

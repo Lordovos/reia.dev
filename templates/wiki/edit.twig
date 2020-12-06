@@ -18,7 +18,7 @@
             </div>
             <div>
                 <label for="input-reason">Reason</label>
-                <input type="text" name="reason" id="input-reason" size="80" value="{{ form_input ? form_input.reason : "" }}" required>
+                <input type="text" name="reason" id="input-reason" size="80" value="{{ form_input ? form_input.reason : "" }}">
             </div>
             {% if user and user.isAdministrator() %}
                 <hr>
