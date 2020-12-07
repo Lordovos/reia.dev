@@ -14,4 +14,4 @@ A suite of web-based tools for roleplaying.
 
 ## Contributing
 
-Any and all contributions are welcome--from feature requests, to bug reports.
+Any and all contributions are welcome&mdash;from feature requests, to bug reports.

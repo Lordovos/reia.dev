@@ -5,7 +5,7 @@ require_once __DIR__ . "/../vendor/autoload.php";
  * If the environment variable APP_ENV isn't set, or it isn't equal to
  * "production" we load the .env file from the user's local repository.
  */
-if (empty($_ENV["APP_ENV"]) || $_ENV["APP_ENV"] !== "production") {
+if (!getenv("APP_ENV") || getenv("APP_ENV") !== "production") {
     if (file_exists(__DIR__ . "/../.env")) {
         $dotenv = \Dotenv\Dotenv::createImmutable(__DIR__ . "/../");
         $dotenv->load();
