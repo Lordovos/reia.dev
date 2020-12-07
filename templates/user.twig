@@ -7,6 +7,7 @@
             <hr>
             <p><strong>Joined:</strong> <span class="datetime">{{ profile.join_date }}</span></p>
             {% if user and user.isAdministrator() %}
+                <p><strong>Email:</strong> {{ profile.email }}
                 <hr>
                 <div class="form-button-list">
                     {% if profile.role == -1 %}

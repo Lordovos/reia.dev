@@ -12,9 +12,13 @@
         }
     }
 }
-.nav-brand a {
-    display: block;
-    font-size: 2rem;
+.nav-brand {
+    margin-right: auto;
+
+    a {
+        display: block;
+        font-size: 2rem;
+    }
 }
 .nav-toggle {
     position: absolute;
@@ -67,8 +71,6 @@
         margin: 0 1rem;
     }
     .nav-brand {
-        margin-right: auto;
-
         a {
             padding: 0;
         }
