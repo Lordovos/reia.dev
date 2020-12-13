@@ -78,6 +78,8 @@ label {
     }
 }
 .form-button-success {
+    color: $success-green;
+
     &:hover {
         border-color: $success-green;
     }
@@ -86,6 +88,8 @@ label {
     }
 }
 .form-button-error {
+    color: $error-red;
+
     &:hover {
         border-color: $error-red;
     }

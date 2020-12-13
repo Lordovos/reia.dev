@@ -77,12 +77,13 @@ articleCaptions?.forEach((caption) => {
     }
 });
 let wikiArticleBody = document.querySelector(".wiki-article-body");
-/**
- * Because Textile has no way to insert div elements, we have to inject one
- * into the page and then move the adjacent table inside of it. This is to help
- * with constraining the width of the table on mobile devices.
- */
+
 if (wikiArticleBody) {
+    /**
+     * Because Textile has no way to insert div elements, we have to inject one
+     * into the page and then move the adjacent table inside of it. This is to help
+     * with constraining the width of the table on mobile devices.
+     */
     let tables = document.querySelectorAll("table");
 
     tables?.forEach((table) => {
@@ -91,21 +92,44 @@ if (wikiArticleBody) {
         table.before(div);
         div.appendChild(table);
     });
+    /**
+     * Check each link to see if it leads to a wiki article, and if so check to
+     * see if the article exists. If the article does not exist, then the link
+     * is given a CSS class of "invalid-link".
+     */
     let links = wikiArticleBody.querySelectorAll("a");
 
     links?.forEach((link) => {
-        let request = new XMLHttpRequest();
+        if (link.href.match(/wiki\/([a-z0-9-]+)/)) {
+            let request = new XMLHttpRequest();
 
-        request.addEventListener("readystatechange", () => {
-            if (request.readyState === XMLHttpRequest.DONE) {
-                if (request.status === 404) {
-                    link.classList.add("invalid-link");
+            request.addEventListener("readystatechange", () => {
+                if (request.readyState === XMLHttpRequest.DONE) {
+                    if (request.status === 404) {
+                        link.classList.add("invalid-link");
+                    }
                 }
-            }
-        }, false);
-        request.open("HEAD", link.href, true);
-        request.send(null);
+            }, false);
+            request.open("HEAD", link.href, true);
+            request.send(null);
+        }
     });
+    /**
+     * Wraps the table of contents in a container.
+     */
+    let tableOfContents = document.querySelector("#table-of-contents");
+
+    if (tableOfContents) {
+        let list = document.querySelector("#table-of-contents + ol");
+
+        if (list) {
+            let div = document.createElement("div");
+            div.classList.add("wiki-article-toc-container");
+            tableOfContents.before(div);
+            div.appendChild(tableOfContents);
+            div.appendChild(list);
+        }
+    }
 }
 let uploadImagesLabel = document.querySelector(".upload-image");
 let uploadImagesInput = document.querySelector("#input-upload");
