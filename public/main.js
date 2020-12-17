@@ -93,28 +93,6 @@ if (wikiArticleBody) {
         div.appendChild(table);
     });
     /**
-     * Check each link to see if it leads to a wiki article, and if so check to
-     * see if the article exists. If the article does not exist, then the link
-     * is given a CSS class of "invalid-link".
-     */
-    let links = wikiArticleBody.querySelectorAll("a");
-
-    links?.forEach((link) => {
-        if (link.href.match(/wiki\/([a-z0-9-]+)/)) {
-            let request = new XMLHttpRequest();
-
-            request.addEventListener("readystatechange", () => {
-                if (request.readyState === XMLHttpRequest.DONE) {
-                    if (request.status === 404) {
-                        link.classList.add("invalid-link");
-                    }
-                }
-            }, false);
-            request.open("HEAD", link.href, true);
-            request.send(null);
-        }
-    });
-    /**
      * Wraps the table of contents in a container.
      */
     let tableOfContents = document.querySelector("#table-of-contents");
@@ -130,6 +108,24 @@ if (wikiArticleBody) {
             div.appendChild(list);
         }
     }
+    /**
+     * Check each link to see if it leads to a wiki article, and if so check to
+     * see if the article exists. If the article does not exist, then the link
+     * is given a CSS class of "invalid-link".
+     */
+    let links = wikiArticleBody.querySelectorAll("a");
+
+    links?.forEach((link) => {
+        if (link.href.match(/wiki\/([a-z0-9-]+)/)) {
+            fetch(link.href, {
+                method: "HEAD"
+            }).then((response) => {
+                if (response.status === 404) {
+                    link.classList.add("invalid-link");
+                }
+            });
+        }
+    });
 }
 let uploadImagesLabel = document.querySelector(".upload-image");
 let uploadImagesInput = document.querySelector("#input-upload");
