@@ -42,7 +42,6 @@
         border-bottom: 1px solid $medium-gray;
         margin-bottom: 0.5rem;
         overflow: hidden;
-        clear: both;
     }
     p, ol, ul, blockquote, pre {
         margin-bottom: 1rem;
@@ -123,14 +122,19 @@ p.wiki-article-caption {
     }
     & > ol {
         padding-left: 1rem;
+
+        li {
+            overflow-wrap: break-word;
+        }
     }
 }
-@media screen and (min-width: 768px) {
+@media screen and (min-width: 1024px) {
     .wiki-article-body {
         table {
             max-width: 20rem;
             float: right;
             margin-left: 1rem;
+            font-size: 0.9rem;
         }
     }
     blockquote {

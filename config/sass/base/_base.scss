@@ -6,6 +6,7 @@ body {
     color: #fff;
     font-family: $text-font-stack;
     background-color: $dark-gray;
+    font-size: 0.95rem;
 }
 code {
     font-family: $code-font-stack;
@@ -25,6 +26,7 @@ h1, h2, h3, h4, h5, h6, p, ol, ul, pre, blockquote {
 hr {
     border: 0;
     border-bottom: 1px solid $medium-gray;
+    clear: both;
 }
 a {
     color: #0d8eff;
@@ -57,7 +59,7 @@ article {
         font-size: 1.5rem;
     }
     h3 {
-        font-size: 1.1rem;
+        font-size: 1.2rem;
     }
     h4, h5, h6 {
         font-size: 1rem;
@@ -66,7 +68,7 @@ article {
 button {
     color: #fff;
     font-family: inherit;
-    font-size: 1rem;
+    font-size: 100%;
     background-color: $dark-gray;
     border: 1px solid $medium-gray;
     border-radius: 0.25rem;
