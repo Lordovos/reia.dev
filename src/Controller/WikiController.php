@@ -132,7 +132,7 @@ class WikiController extends Controller {
         $isHidden = null;
         $isLocked = null;
 
-        if ($this->user->isAdministrator()) {
+        if ($this->user && $this->user->isAdministrator()) {
             $isHidden = $_POST["is_hidden"] ?? "no";
             $isLocked = $_POST["is_locked"] ?? "no";
         }
@@ -164,7 +164,7 @@ class WikiController extends Controller {
                 "body" => $body,
                 "categories" => $categories
             ];
-            if ($this->user->isAdministrator()) {
+            if ($this->user && $this->user->isAdministrator()) {
                 $_SESSION["form_input"][] = [
                     "is_hidden" => $isHidden,
                     "is_locked" => $isLocked
@@ -177,7 +177,7 @@ class WikiController extends Controller {
             $revision = $this->model->addRevision($body, "Initial revision.", $this->user->id, $date->format("Y-m-d H:i:s"), $article["id"]);
             $this->model->setLatestRevision($revision["id"], $article["id"]);
 
-            if ($this->user->isAdministrator()) {
+            if ($this->user && $this->user->isAdministrator()) {
                 $isHidden = ($isHidden === "yes" ? 1 : 0);
                 $isLocked = ($isLocked === "yes" ? 1 : 0);
                 $this->model->hideArticle($isHidden, $slug);
@@ -242,7 +242,7 @@ class WikiController extends Controller {
         $isHidden = null;
         $isLocked = null;
 
-        if ($this->user->isAdministrator()) {
+        if ($this->user && $this->user->isAdministrator()) {
             $isHidden = $_POST["is_hidden"] ?? "no";
             $isLocked = $_POST["is_locked"] ?? "no";
             $isHidden = ($isHidden === "yes" ? 1 : 0);
@@ -250,7 +250,7 @@ class WikiController extends Controller {
         }
         if ($this->csrfToken->verify($csrfToken)) {
             if ($article) {
-                if ($this->user->isAdministrator()) {
+                if ($this->user && $this->user->isAdministrator()) {
                     if ($body === $article["body"] && $categories === $article["categories"] && $isHidden === $article["is_hidden"] && $isLocked === $article["is_locked"]) {
                         $this->flash->error("No changes found. Please modify the article before submitting.");
                     }
@@ -277,7 +277,7 @@ class WikiController extends Controller {
                 "categories" => $categories,
                 "reason" => $reason
             ];
-            if ($this->user->isAdministrator()) {
+            if ($this->user && $this->user->isAdministrator()) {
                 $_SESSION["form_input"][] = [
                     "is_hidden" => $isHidden,
                     "is_locked" => $isLocked
@@ -292,7 +292,7 @@ class WikiController extends Controller {
                 $revision = $this->model->addRevision($body, $reason, $this->user->id, $date->format("Y-m-d H:i:s"), $article["id"]);
                 $this->model->setLatestRevision($revision["id"], $article["id"]);
             }
-            if ($this->user->isAdministrator()) {
+            if ($this->user && $this->user->isAdministrator()) {
                 $this->model->hideArticle($isHidden, $slug);
                 $this->model->lockArticle($isLocked, $slug);
             }
