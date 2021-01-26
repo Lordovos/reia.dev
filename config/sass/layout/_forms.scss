@@ -1,7 +1,7 @@
 input, textarea {
     color: #fff;
     font-family: inherit;
-    font-size: 100%;
+    font-size: 1rem;
     background-color: $dark-gray;
     border: 1px solid $medium-gray;
     border-radius: 0.25rem;
@@ -99,7 +99,7 @@ label {
 }
 .form-required {
     color: #777;
-    font-size: 0.9rem;
+    font-size: 0.75rem;
 }
 @media screen and (min-width: 768px) {
     .form-checkbox-label-divider {

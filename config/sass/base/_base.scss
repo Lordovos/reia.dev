@@ -6,7 +6,6 @@ body {
     color: #fff;
     font-family: $text-font-stack;
     background-color: $dark-gray;
-    font-size: 0.95rem;
 }
 code {
     font-family: $code-font-stack;
@@ -68,7 +67,7 @@ article {
 button {
     color: #fff;
     font-family: inherit;
-    font-size: 100%;
+    font-size: 1rem;
     background-color: $dark-gray;
     border: 1px solid $medium-gray;
     border-radius: 0.25rem;
