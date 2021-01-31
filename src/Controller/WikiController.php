@@ -193,6 +193,9 @@ class WikiController extends Controller {
         unset($_SESSION["form_input"]);
         $this->hasUser();
 
+        if (!$this->user) {
+            $this->setPreviousUrl($_SERVER["REQUEST_URI"]);
+        }
         $article = $this->model->findSlug($slug);
 
         if ($article && $article["is_locked"]) {

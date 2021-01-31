@@ -57,6 +57,7 @@ class Controller {
         if (!$this->user) {
             $this->flash->error("Please log in to view this page.");
             $this->flash->setMessages();
+            $this->setPreviousUrl($_SERVER["REQUEST_URI"] ?? "");
             header("Location: /login");
             exit();
         }
@@ -68,6 +69,14 @@ class Controller {
             header("Location: /");
             exit();
         }
+    }
+    protected function setPreviousUrl(string $str): void {
+        $_SESSION["previous_url"] = $str;
+    }
+    protected function getPreviousUrl(): ?string {
+        $previousUrl = $_SESSION["previous_url"] ?? null;
+        unset($_SESSION["previous_url"]);
+        return $previousUrl;
     }
     /**
      * Converts strings to all lowercase and converts whitespace to dashes.

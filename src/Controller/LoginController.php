@@ -65,7 +65,13 @@ class LoginController extends Controller {
             $this->flash->success("User logged in successfully.");
             $this->flash->setMessages();
             $this->csrfToken->destroy();
-            header("Location: /user/" . $user["username"]);
+            $previousUrl = $this->getPreviousUrl();
+
+            if ($previousUrl) {
+                header("Location: " . $previousUrl);
+            } else {
+                header("Location: /user/" . $user["username"]);
+            }
         }
     }
     public function logout(): void {
