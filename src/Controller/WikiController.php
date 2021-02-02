@@ -323,7 +323,7 @@ class WikiController extends Controller {
                 $content = "";
             }
             header("Content-Description: File Transfer");
-            header("Content-Type: application/octet-stream");
+            header("Content-Type: text/plain");
             header("Content-Disposition: attachment; filename=" . $article["slug"] . ".textile");
             header("Content-Length: " . strlen($content));
             header("Cache-Control: must-revalidate, post-check=0, pre-check=0");

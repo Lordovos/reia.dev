@@ -47,6 +47,10 @@
                 {% endfor %}
                 </ul>
             {% endif %}
+            <hr>
+            <div class="form-button-list">
+                <p class="form-button"><a href="/wiki/download/{{ article.slug }}"><i class="las la-download"></i> <span class="desktop-text">Download Article</span></a></p>
+            </div>
         </article>
     {% endif %}
 {% endblock %}
