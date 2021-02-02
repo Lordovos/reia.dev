@@ -35,6 +35,8 @@ class LoginController extends Controller {
         $csrfToken = $_POST["csrf_token"] ?? "";
         $username = trim($_POST["username"]) ?? "";
         $password = $_POST["password"] ?? "";
+        $rememberMe = $_POST["remember_me"] ?? "no";
+        $rememberMe = ($rememberMe === "yes" ? 1 : 0);
         $user = null;
 
         if ($this->csrfToken->verify($csrfToken)) {
@@ -57,11 +59,20 @@ class LoginController extends Controller {
         if ($this->flash->hasErrors()) {
             $this->flash->setMessages();
             $_SESSION["form_input"] = [
-                "username" => $username
+                "username" => $username,
+                "remember_me" => $rememberMe
             ];
             header("Location: /login");
         } else {
             $_SESSION["user_id"] = $user["id"];
+
+            if ($rememberMe) {
+                $selector = base64_encode(random_bytes(9));
+                $authenticator = random_bytes(33);
+                $authToken = new \ReiaDev\AuthToken();
+                $authToken->generateCookie($selector, $authenticator);
+                $authToken->add($selector, $authenticator, $user["id"]);
+            }
             $this->flash->success("User logged in successfully.");
             $this->flash->setMessages();
             $this->csrfToken->destroy();
@@ -76,6 +87,9 @@ class LoginController extends Controller {
     }
     public function logout(): void {
         if ($this->user) {
+            $authToken = new \ReiaDev\AuthToken();
+            $authToken->remove($this->user->id);
+            $authToken->destroyCookie();
             unset($_SESSION["user_id"]);
             $this->flash->success("User logged out succesfully.");
             $this->flash->setMessages();

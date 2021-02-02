@@ -33,6 +33,19 @@ class Controller {
         echo $this->twig->render($template, $data);
     }
     protected function setUser(): void {
+        if (empty($_SESSION["user_id"]) && !empty($_COOKIE["remember_me"])) {
+            list($selector, $authenticator) = explode(":", $_COOKIE["remember_me"]);
+            $authToken = new \ReiaDev\AuthToken();
+            $token = $authToken->get($selector);
+
+            if ($token && hash_equals($token["token"], hash("sha256", base64_decode($authenticator)))) {
+                $_SESSION["user_id"] = $token["user_id"];
+                $selector = base64_encode(random_bytes(9));
+                $authenticator = random_bytes(33);
+                $authToken->generateCookie($selector, $authenticator);
+                $authToken->update($selector, $authenticator, $token["user_id"]);
+            }
+        }
         if (!empty($_SESSION["user_id"])) {
             $userModel = new \ReiaDev\Model\UserModel();
             $user = $userModel->findId($_SESSION["user_id"]);

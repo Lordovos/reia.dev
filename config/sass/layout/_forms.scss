@@ -39,6 +39,7 @@ label {
     padding: 0.5rem 1rem;
     border: 1px solid $medium-gray;
     border-radius: 0.25rem;
+    user-select: none;
 
     &:hover {
         border-color: #fff;

@@ -13,6 +13,21 @@ navToggle?.addEventListener("click", () => {
         navItem.classList.toggle("nav-item-show");
     });
 }, false);
+let rememberMeToggle = document.querySelector(".remember-me");
+
+rememberMeToggle?.addEventListener("click", () => {
+    "use strict";
+    let checkbox = document.querySelector("#input-remember-me");
+    let icon = rememberMeToggle.querySelector(".form-checkbox-icon");
+
+    if (checkbox.checked) {
+        icon.classList.remove("la-check-square");
+        icon.classList.add("la-square");
+    } else {
+        icon.classList.remove("la-square");
+        icon.classList.add("la-check-square");
+    }
+}, false);
 let wikiHideToggle = document.querySelector(".wiki-hide");
 
 wikiHideToggle?.addEventListener("click", () => {

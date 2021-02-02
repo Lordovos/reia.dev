@@ -13,6 +13,25 @@
         </div>
         <hr>
         <div class="form-button-list">
+            {% set remember_me_checked = null %}
+            {% if (form_input and (form_input.remember_me == "yes" or form_input.remember_me == 1)) %}
+                {% set remember_me_checked = "checked" %}
+            {% endif %}
+            <label for="input-remember-me" class="form-checkbox-label remember-me">
+                {% if remember_me_checked %}
+                    <i class="lar la-check-square form-checkbox-icon"></i>
+                {% else %}
+                    <i class="lar la-square form-checkbox-icon"></i>
+                {% endif %}
+                <span class="form-checkbox-label-divider"></span>
+                <i class="las la-history"></i>
+                Remember Me
+            </label>
+            <input type="hidden" name="remember_me" value="no">
+            <input type="checkbox" name="remember_me" id="input-remember-me" class="form-checkbox-hide" value="yes" {{ remember_me_checked }}>
+        </div>
+        <hr>
+        <div class="form-button-list">
             <button type="submit" class="form-button-success"><i class="las la-check"></i> <span class="desktop-text">Log In</span></button>
             <p class="form-button form-button-error"><a href="/"><i class="las la-times"></i> <span class="desktop-text">Cancel</span></a></p>
         </div>
