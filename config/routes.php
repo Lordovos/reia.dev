@@ -56,6 +56,9 @@ $router->mount("/admin", function () use ($router, $controllers) {
     $router->get("/user/verify/(\d+)", function (int $id) use ($controllers) {
         $controllers["admin_controller"]->verifyUser($id);
     });
+    $router->get("/user/delete/(\d+)", function (int $id) use ($controllers) {
+        $controllers["admin_controller"]->deleteUser($id);
+    });
 });
 $router->mount("/wiki", function () use ($router, $controllers) {
     $router->get("/", function () use ($controllers) {

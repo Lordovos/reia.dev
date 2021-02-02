@@ -95,4 +95,22 @@ class AdminController extends Controller {
             header("Location: /");
         }
     }
+    public function deleteUser(int $id): void {
+        $this->hasUser();
+        $this->isAdministrator();
+
+        $userModel = new \ReiaDev\Model\UserModel();
+        $user = $userModel->findId($id);
+
+        if ($user) {
+            $userModel->delete($id);
+            $this->flash->success("User " . $user["username"] . " deleted.");
+            $this->flash->setMessages();
+            header("Location: /admin");
+        } else {
+            $this->flash->error("User does not exist.");
+            $this->flash->setMessages();
+            header("Location: /");
+        }
+    }
 }

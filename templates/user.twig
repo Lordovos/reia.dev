@@ -14,6 +14,7 @@
                         <p class="form-button form-button-success"><a href="/admin/user/unban/{{ profile.id }}"><i class="las la-check-circle"></i> <span class="desktop-text">Unban</span></a></p>
                     {% elseif profile.role == 0 %}
                         <p class="form-button form-button-success"><a href="/admin/user/verify/{{ profile.id }}"><i class="las la-check"></i> <span class="desktop-text">Verify</span></a></p>
+                        <p class="form-button form-button-error"><a href="/admin/user/delete/{{ profile.id }}"><i class="las la-skull-crossbones"></i> <span class="desktop-text">Delete</span></a></p>
                     {% elseif profile.role == 1 %}
                         <p class="form-button form-button-error"><a href="/admin/user/ban/{{ profile.id }}"><i class="las la-ban"></i> <span class="desktop-text">Ban</span></a></p>
                     {% endif %}

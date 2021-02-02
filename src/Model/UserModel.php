@@ -81,4 +81,15 @@ SQL;
         $stmt = $db->prepare($sql);
         $stmt->execute([$role, $id]);
     }
+    public function delete(int $id): void {
+        $sql = <<<SQL
+            DELETE FROM
+                users
+            WHERE
+                id = ?;
+SQL;
+        $db = \ReiaDev\Database::getInstance()->getConnection();
+        $stmt = $db->prepare($sql);
+        $stmt->execute([$id]);
+    }
 }
