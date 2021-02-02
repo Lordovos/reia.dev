@@ -9,7 +9,12 @@
         </div>
         <div>
             <label for="input-password">Password <span class="form-required">(required)</span></label>
-            <input type="password" name="password" id="input-password" size="40" required>
+            <div class="password-container">
+                <div>
+                    <input type="password" name="password" id="input-password" class="password-input" size="34" minlength="{{ form_constraints.password_min_length }}" required>
+                </div>
+                <p class="show-password"><i class="las la-eye"></i></p>
+            </div>
         </div>
         <hr>
         <div class="form-button-list">

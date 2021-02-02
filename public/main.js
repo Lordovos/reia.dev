@@ -58,6 +58,14 @@ wikiLockToggle?.addEventListener("click", () => {
         icon.classList.add("la-check-square");
     }
 }, false);
+let showPasswordToggle = document.querySelector(".show-password");
+
+showPasswordToggle?.addEventListener("click", () => {
+    "use strict";
+    let input = document.querySelector(".password-input");
+
+    input.type = (input.type === "password" ? "text" : "password");
+}, false);
 
 function toLocalTime(utcTime) {
     "use strict";
