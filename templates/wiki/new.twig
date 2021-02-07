@@ -1,7 +1,19 @@
 {% extends "base.twig" %}
 
 {% block content %}
-    <form action="/wiki/new" method="post">
+    <dialog class="preview">
+        <form method="dialog">
+            <div class="form-button-list">
+                <button class="preview-close-button form-button-error">Close</button>
+            </div>
+        </form>
+        <hr>
+        <p class="alert alert-warning"><i class="las la-exclamation-triangle"></i> You're currently viewing a preview of the article you're editing.</p>
+        <hr>
+        <div class="wiki-article-body wiki-article-body-preview">
+        </div>
+    </dialog>
+    <form action="/wiki/new" method="post" class="wiki-article-form">
         <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
         <div class="form-group">
             <label for="input-title">Title <span class="form-required">(required)</span></label>
@@ -55,6 +67,7 @@
         <hr>
         <div class="form-button-list">
             <button type="submit"><i class="las la-save"></i> <span class="desktop-text">Publish</span></button>
+            <button type="submit" class="preview-article"><i class="las la-wrench"></i> <span class="desktop-text">Preview</span></button>
             <p class="form-button form-button-error"><a href="/wiki"><i class="las la-times"></i> <span class="desktop-text">Cancel</span></a></p>
         </div>
     </form>

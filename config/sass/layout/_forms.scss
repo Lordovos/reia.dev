@@ -72,6 +72,9 @@ label {
 .form-button-list {
     display: flex;
 
+    & button:not(:last-of-type) {
+        margin-right: 1rem;
+    }
     & label:not(:last-of-type) {
         margin-right: 1rem;
     }
@@ -119,6 +122,9 @@ label {
 .form-required {
     color: #777;
     font-size: 0.75rem;
+}
+.preview-close-button {
+    margin: 0 0 0 auto;
 }
 @media screen and (min-width: 768px) {
     .form-checkbox-label-divider {

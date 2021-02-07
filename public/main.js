@@ -99,14 +99,13 @@ articleCaptions?.forEach((caption) => {
         caption.style.width = `${captionImage.width + 18}px`;
     }
 });
-let wikiArticleBody = document.querySelector(".wiki-article-body");
-
-if (wikiArticleBody) {
-    /**
-     * Because Textile has no way to insert div elements, we have to inject one
-     * into the page and then move the adjacent table inside of it. This is to help
-     * with constraining the width of the table on mobile devices.
-     */
+/**
+ * Because Textile has no way to insert div elements, we have to inject one
+ * into the page and then move the adjacent table inside of it. This is to help
+ * with constraining the width of the table on mobile devices.
+ */
+function wrapTables() {
+    "use strict";
     let tables = document.querySelectorAll("table");
 
     tables?.forEach((table) => {
@@ -115,9 +114,12 @@ if (wikiArticleBody) {
         table.before(div);
         div.appendChild(table);
     });
-    /**
-     * Wraps the table of contents in a container.
-     */
+}
+/**
+ * Wraps the table of contents in a container.
+ */
+function wrapTableOfContents() {
+    "use strict";
     let tableOfContents = document.querySelector("#table-of-contents");
 
     if (tableOfContents) {
@@ -131,12 +133,15 @@ if (wikiArticleBody) {
             div.appendChild(list);
         }
     }
-    /**
-     * Check each link to see if it leads to a wiki article, and if so check to
-     * see if the article exists. If the article does not exist, then the link
-     * is given a CSS class of "invalid-link".
-     */
-    let links = wikiArticleBody.querySelectorAll("a");
+}
+/**
+ * Check each link to see if it leads to a wiki article, and if so check to
+ * see if the article exists. If the article does not exist, then the link
+ * is given a CSS class of "invalid-link".
+ */
+function validateLinks(body) {
+    "use strict";
+    let links = body.querySelectorAll("a");
 
     links?.forEach((link) => {
         if (link.href.match(/wiki\/([a-z0-9-]+)/)) {
@@ -149,6 +154,13 @@ if (wikiArticleBody) {
             });
         }
     });
+}
+let wikiArticleBody = document.querySelector(".wiki-article-body");
+
+if (wikiArticleBody) {
+    wrapTables();
+    wrapTableOfContents();
+    validateLinks(wikiArticleBody);
 }
 let uploadImagesLabel = document.querySelector(".upload-image");
 let uploadImagesInput = document.querySelector("#input-upload");
@@ -183,3 +195,29 @@ if (wikiArticleBodyReadOnly) {
         document.execCommand("copy");
     }, false);
 }
+let wikiArticlePreviewButton = document.querySelector(".preview-article");
+
+wikiArticlePreviewButton?.addEventListener("click", (event) => {
+    "use strict";
+    const previewDialog = document.querySelector(".preview");
+    const wikiArticleBodyPreview = document.querySelector(".wiki-article-body-preview");
+
+    event.preventDefault();
+
+    fetch("/wiki/preview", {
+        method: "POST",
+        body: new FormData(document.querySelector(".wiki-article-form"))
+    }).then((response) => {
+        return response.text();
+    }).then((text) => {
+        if (wikiArticleBodyPreview) {
+            wikiArticleBodyPreview.innerHTML = text;
+            wrapTables();
+            wrapTableOfContents();
+            validateLinks(wikiArticleBodyPreview);
+            previewDialog?.showModal();
+        }
+    }).catch((error) => {
+        console.error("Error: " + error);
+    });
+}, false);

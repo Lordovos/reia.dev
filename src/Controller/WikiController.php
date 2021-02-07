@@ -304,6 +304,12 @@ class WikiController extends Controller {
             header("Location: /wiki/" . $slug);
         }
     }
+    public function previewArticle(): void {
+        $body = $_REQUEST["body"] ?? "";
+        $parser = new \Netcarver\Textile\Parser();
+        $parsedBody = $parser->setDocumentType("html5")->parse(htmlspecialchars($body, ENT_NOQUOTES));
+        echo $parsedBody;
+    }
     public function downloadArticle(string $slug): void {
         $this->hasUser();
 
