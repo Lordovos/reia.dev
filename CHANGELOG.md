@@ -32,5 +32,5 @@ All notable changes to this project will be noted here.
 * Search bar.
 
 [Unreleased]: https://github.com/Lordovos/reia.dev/compare/v0.0.2...HEAD
-[0.0.2]: https://github.com/Lordovos/reia.dev/releases/tag/v0.0.2
+[0.0.2]: https://github.com/Lordovos/reia.dev/compare/v0.0.1...v0.0.2
 [0.0.1]: https://github.com/Lordovos/reia.dev/releases/tag/v0.0.1
