@@ -2,9 +2,7 @@
 declare(strict_types=1);
 
 namespace ReiaDev\Controller;
-/**
- * TODO: Remember me.
- */
+
 class LoginController extends Controller {
     private \ReiaDev\CSRFToken $csrfToken;
 

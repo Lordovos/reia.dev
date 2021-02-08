@@ -2,10 +2,7 @@
 declare(strict_types=1);
 
 namespace ReiaDev\Controller;
-/**
- * TODO: Add a preview button for articles.
- * TODO: Implement a button for downloading articles.
- */
+
 class WikiController extends Controller {
     const TITLE_MIN_LENGTH = 4;
     const TITLE_MAX_LENGTH = 32;
