@@ -45,7 +45,7 @@ class WikiController extends Controller {
             header("HTTP/1.1 404 Not Found");
         }
         $this->render("wiki/article.twig", [
-            "page_title" => !empty($article["title"]) ? $this->setTitle($article["title"]) : $this->setTitle($slug),
+            "page_title" => (!empty($article["title"]) ? $this->setTitle($article["title"]) : $this->setTitle($slug)),
             "article" => $article,
             "slug" => $slug,
             "body" => $body,
@@ -75,7 +75,7 @@ class WikiController extends Controller {
             header("HTTP/1.1 404 Not Found");
         }
         $this->render("wiki/article.twig", [
-            "page_title" => !empty($article["title"]) ? $this->setTitle($article["title"]) : $this->setTitle($slug),
+            "page_title" => (!empty($article["title"]) ? $this->setTitle($article["title"]) : $this->setTitle($slug)),
             "article" => $article,
             "slug" => $slug,
             "body" => $body,
@@ -86,10 +86,8 @@ class WikiController extends Controller {
         $article = $this->model->findSlug($slug);
         $revisions = null;
         $categories = null;
-        $pageTitle = "";
 
         if ($article) {
-            $pageTitle = $article["title"];
             $revisions = $this->model->getRevisions($article["id"]);
 
             if ($article["categories"]) {
@@ -102,7 +100,7 @@ class WikiController extends Controller {
             exit();
         }
         $this->render("/wiki/history.twig", [
-            "page_title" => !empty($article["title"]) ? $this->setTitle($article["title"]) : $this->setTitle($slug),
+            "page_title" => (!empty($article["title"]) ? $this->setTitle($article["title"]) : $this->setTitle($slug)),
             "article" => $article,
             "slug" => $slug,
             "revisions" => $revisions,
@@ -119,7 +117,7 @@ class WikiController extends Controller {
         $this->hasUser();
 
         $this->render("wiki/new.twig", [
-            "page_title" => $slug ? $this->setTitle($slug) : $this->setTitle("New Wiki Article"),
+            "page_title" => ($slug ? $this->setTitle($slug) : $this->setTitle("New Wiki Article")),
             "slug" => $slug,
             "form_constraints" => $formConstraints,
             "form_input" => $formInput,
@@ -213,7 +211,7 @@ class WikiController extends Controller {
             header("Location: /wiki/" . $slug);
         }
         $this->render("wiki/edit.twig", [
-            "page_title" => !empty($article["title"]) ? $this->setTitle($article["title"]) : $this->setTitle($slug),
+            "page_title" => (!empty($article["title"]) ? $this->setTitle($article["title"]) : $this->setTitle($slug)),
             "article" => $article,
             "slug" => $slug,
             "form_input" => $formInput,
@@ -236,7 +234,7 @@ class WikiController extends Controller {
             header("Location: /wiki/" . $slug);
         }
         $this->render("wiki/edit-revision.twig", [
-            "page_title" => !empty($article["title"]) ? $this->setTitle($article["title"]) : $this->setTitle($slug),
+            "page_title" => (!empty($article["title"]) ? $this->setTitle($article["title"]) : $this->setTitle($slug)),
             "article" => $article,
             "slug" => $slug
         ]);

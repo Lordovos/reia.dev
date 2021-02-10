@@ -4,6 +4,10 @@ All notable changes to this project will be noted here.
 
 ## [Unreleased]
 
+### Added
+
+* Controllers now have the `setTitle()` method in order to set the title of a page.
+
 ## [0.0.2] - 2021-02-07
 
 ### Added
