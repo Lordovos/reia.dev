@@ -17,6 +17,7 @@ class AdminController extends Controller {
             }
         }
         $this->render("admin.twig", [
+            "page_title" => $this->setTitle("Admin"),
             "users" => $users
         ]);
     }

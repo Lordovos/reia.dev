@@ -11,6 +11,7 @@ class UserController extends Controller {
             header("HTTP/1.1 404 Not Found");
         }
         $this->render("user.twig", [
+            "page_title" => $this->setTitle($profile["username"]),
             "profile" => $profile
         ]);
     }

@@ -25,6 +25,7 @@ class LoginController extends Controller {
             exit();
         }
         $this->render("login.twig", [
+            "page_title" => $this->setTitle("Log In"),
             "form_input" => $formInput,
             "csrf_token" => $this->csrfToken->get()
         ]);

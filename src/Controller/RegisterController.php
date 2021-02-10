@@ -32,6 +32,7 @@ class RegisterController extends Controller {
             exit();
         }
         $this->render("register.twig", [
+            "page_title" => $this->setTitle("Register"),
             "form_constraints" => $formConstraints,
             "form_input" => $formInput,
             "csrf_token" => $this->csrfToken->get()

@@ -83,6 +83,14 @@ class Controller {
             exit();
         }
     }
+    protected function setTitle(?string $str): string {
+        $pageTitle = "reia.dev";
+
+        if ($str) {
+            $pageTitle = $str . " - " . $pageTitle;
+        }
+        return $pageTitle;
+    }
     protected function setPreviousUrl(string $str): void {
         $_SESSION["previous_url"] = $str;
     }

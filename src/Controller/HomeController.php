@@ -19,18 +19,25 @@ class HomeController extends Controller {
         }
     }
     public function index(): void {
-        $this->render("index.twig", []);
+        $this->render("index.twig", [
+            "page_title" => $this->setTitle("")
+        ]);
     }
     public function about(): void {
-        $this->render("about.twig", []);
+        $this->render("about.twig", [
+            "page_title" => $this->setTitle("About")
+        ]);
     }
     public function notFound(): void {
-        $this->render("404.twig", []);
+        $this->render("404.twig", [
+            "page_title" => $this->setTitle("404 Not Found")
+        ]);
     }
     public function search(string $term): void {
         $results = $this->model->search($term);
 
         $this->render("search.twig", [
+            "page_title" => $this->setTitle("Search"),
             "term" => $term,
             "results" => $results
         ]);
@@ -45,6 +52,7 @@ class HomeController extends Controller {
         $uploadedImages = $this->model->findAllUploadedImages();
 
         $this->render("upload.twig", [
+            "page_title" => $this->setTitle("Upload"),
             "csrf_token" => $this->csrfToken->get(),
             "uploaded_images" => $uploadedImages
         ]);
