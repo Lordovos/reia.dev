@@ -84,21 +84,28 @@ let dateTimes = document.querySelectorAll(".datetime");
 dateTimes?.forEach((dateTime) => {
     dateTime.textContent = toLocalTime(dateTime.textContent);
 });
-let imagesToDouble = document.querySelectorAll(".double");
+function doubleImages() {
+    "use strict";
+    let imagesToDouble = document.querySelectorAll(".double");
 
-imagesToDouble?.forEach((image) => {
-    image.width = image.width * 2;
-    image.height = image.height * 2;
-});
-let articleCaptions = document.querySelectorAll("blockquote.wiki-article-caption");
+    imagesToDouble?.forEach((image) => {
+        image.width = image.width * 2;
+        image.height = image.height * 2;
+    });
+}
+function captionImages() {
+    "use strict";
 
-articleCaptions?.forEach((caption) => {
-    let captionImage = caption.querySelector("img");
+    let articleCaptions = document.querySelectorAll("blockquote.wiki-article-caption");
 
-    if (captionImage) {
-        caption.style.width = `${captionImage.width + 18}px`;
-    }
-});
+    articleCaptions?.forEach((caption) => {
+        let captionImage = caption.querySelector("img");
+    
+        if (captionImage) {
+            caption.style.width = `${captionImage.width + 18}px`;
+        }
+    });
+}
 /**
  * Because Textile has no way to insert div elements, we have to inject one
  * into the page and then move the adjacent table inside of it. This is to help
@@ -158,6 +165,8 @@ function validateLinks(body) {
 let wikiArticleBody = document.querySelector(".wiki-article-body");
 
 if (wikiArticleBody) {
+    doubleImages();
+    captionImages();
     wrapTables();
     wrapTableOfContents();
     validateLinks(wikiArticleBody);
@@ -212,6 +221,8 @@ wikiArticlePreviewButton?.addEventListener("click", (event) => {
     }).then((text) => {
         if (wikiArticleBodyPreview) {
             wikiArticleBodyPreview.innerHTML = text;
+            doubleImages();
+            captionImages();
             wrapTables();
             wrapTableOfContents();
             validateLinks(wikiArticleBodyPreview);
