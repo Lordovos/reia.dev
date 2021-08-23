@@ -11,10 +11,6 @@ if (!getenv("APP_ENV") || getenv("APP_ENV") !== "production") {
         $dotenv->load();
     }
 }
-/**
- * TODO: Wrap bootstrapping portion of the application with an application
- * class?
- */
 $loader = new \Twig\Loader\FilesystemLoader(__DIR__ . "/../templates");
 $twig = new \Twig\Environment($loader);
 $flash = new \ReiaDev\Flash();
