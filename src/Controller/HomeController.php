@@ -2,10 +2,7 @@
 declare(strict_types=1);
 
 namespace ReiaDev\Controller;
-/**
- * Implement OpenGraph.
- * Add favicon.
- */
+
 class HomeController extends Controller {
     const UPLOAD_MAX_SIZE = 1024 * 16;
     private \ReiaDev\CSRFToken $csrfToken;

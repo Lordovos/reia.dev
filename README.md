@@ -1,6 +1,6 @@
 # reia.dev
 
-A suite of web-based tools for roleplaying.
+A suite of web-based tools for role-playing.
 
 ## Features
 

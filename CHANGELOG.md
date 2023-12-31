@@ -7,6 +7,8 @@ All notable changes to this project will be noted here.
 ### Added
 
 * Controllers now have the `setTitle()` method in order to set the title of a page.
+* URLs leading to external websites are now denoted with an icon. A URL can be marked as safe via the `safe-external-url` CSS class (such as for logos) so that it does not receive this icon.
+* Implemented several small optimizations.
 
 ## [0.0.2] - 2021-02-07
 
