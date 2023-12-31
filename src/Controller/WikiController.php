@@ -18,10 +18,21 @@ class WikiController extends Controller {
     }
     public function index(): void {
         $articles = $this->model->findAll();
+        $categories = [];
 
+        foreach ($articles as $article) {
+            $articleCategories = explode(",", $article["categories"]);
+
+            foreach ($articleCategories as $category) {
+                if (!in_array($category, $categories)) {
+                    $categories[] = $category;
+                }
+            }
+        }
         $this->render("wiki/index.twig", [
             "page_title" => $this->setTitle("Wiki"),
-            "articles" => $articles
+            "articles" => $articles,
+            "categories" => array_filter($categories)
         ]);
     }
     public function readArticle(string $slug): void {

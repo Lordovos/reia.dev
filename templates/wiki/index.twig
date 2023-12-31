@@ -21,6 +21,15 @@
                 {% endif %}
             {% endfor %}
             </ul>
+            {% if categories|length > 0 %}
+                <hr>
+                <div class="wiki-article-categories">
+                    <strong>Categories:</strong>
+                    {% for category in categories %}
+                        <a href="/search/category:{{ category }}">{{ category }}</a>{% if not loop.last %},{% endif %}
+                    {% endfor %}
+                </div>
+            {% endif %}
         {% else %}
             <p>There are currently no wiki articles.</p>
         {% endif %}
