@@ -1,4 +1,15 @@
 {
+    "name": "lordovos/reia.dev",
+    "description": "A suite of role-playing tools.",
+    "type": "project",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Robert Holman",
+            "email": "lordovos@live.com",
+            "role": "Developer"
+        }
+    ],
     "require": {
         "twig/twig": "^3.1",
         "bramus/router": "^1.5",
