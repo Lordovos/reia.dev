@@ -1,7 +1,7 @@
+"use strict";
 let navToggle = document.querySelector(".nav-toggle");
 
 navToggle?.addEventListener("click", () => {
-    "use strict";
     navToggle.classList.toggle("nav-toggle-open");
 
     if (navToggle.classList.contains("nav-toggle-open")) {
@@ -16,7 +16,6 @@ navToggle?.addEventListener("click", () => {
 let rememberMeToggle = document.querySelector(".remember-me");
 
 rememberMeToggle?.addEventListener("click", () => {
-    "use strict";
     let checkbox = document.querySelector("#input-remember-me");
     let icon = rememberMeToggle.querySelector(".form-checkbox-icon");
 
@@ -31,7 +30,6 @@ rememberMeToggle?.addEventListener("click", () => {
 let wikiHideToggle = document.querySelector(".wiki-hide");
 
 wikiHideToggle?.addEventListener("click", () => {
-    "use strict";
     let checkbox = document.querySelector("#input-is-hidden");
     let icon = wikiHideToggle.querySelector(".form-checkbox-icon");
 
@@ -46,7 +44,6 @@ wikiHideToggle?.addEventListener("click", () => {
 let wikiLockToggle = document.querySelector(".wiki-lock");
 
 wikiLockToggle?.addEventListener("click", () => {
-    "use strict";
     let checkbox = document.querySelector("#input-is-locked");
     let icon = wikiLockToggle.querySelector(".form-checkbox-icon");
 
@@ -61,14 +58,12 @@ wikiLockToggle?.addEventListener("click", () => {
 let showPasswordToggle = document.querySelector(".show-password");
 
 showPasswordToggle?.addEventListener("click", () => {
-    "use strict";
     let input = document.querySelector(".password-input");
 
     input.type = (input.type === "password" ? "text" : "password");
 }, false);
 
 function toLocalTime(utcTime) {
-    "use strict";
     let localTime = new Date(`${utcTime} UTC`);
     let options = {
         year: "numeric",
@@ -85,7 +80,6 @@ dateTimes?.forEach((dateTime) => {
     dateTime.textContent = toLocalTime(dateTime.textContent);
 });
 function doubleImages() {
-    "use strict";
     let imagesToDouble = document.querySelectorAll(".double");
 
     imagesToDouble?.forEach((image) => {
@@ -94,8 +88,6 @@ function doubleImages() {
     });
 }
 function captionImages() {
-    "use strict";
-
     let articleCaptions = document.querySelectorAll("blockquote.wiki-article-caption");
 
     articleCaptions?.forEach((caption) => {
@@ -112,7 +104,6 @@ function captionImages() {
  * with constraining the width of the table on mobile devices.
  */
 function wrapTables() {
-    "use strict";
     let tables = document.querySelectorAll("table");
 
     tables?.forEach((table) => {
@@ -126,7 +117,6 @@ function wrapTables() {
  * Wraps the table of contents in a container.
  */
 function wrapTableOfContents() {
-    "use strict";
     let tableOfContents = document.querySelector("#table-of-contents");
 
     if (tableOfContents) {
@@ -141,13 +131,28 @@ function wrapTableOfContents() {
         }
     }
 }
+// Strips a URL down to its base domain and returns it as text.
+function getDomain(url) {
+    return url.replace("http://", "").replace("https://", "").split("/")[0];
+}
+function validateExternalLinks(body) {
+    let links = body.querySelectorAll("a");
+
+    links?.forEach((link) => {
+        // If a link does not have the CSS class "safe-external-url", proceed with altering the link text.
+        if (!link.classList.contains("safe-external-url") && !link.href.includes("mailto:")) {
+            if (getDomain(link.href) !== getDomain(document.location.href)) {
+                link.innerHTML += `<i class="las la-external-link-alt"></i>`;
+            }
+        }
+    });
+}
 /**
  * Check each link to see if it leads to a wiki article, and if so check to
  * see if the article exists. If the article does not exist, then the link
  * is given a CSS class of "invalid-link".
  */
 function validateLinks(body) {
-    "use strict";
     let links = body.querySelectorAll("a");
 
     links?.forEach((link) => {
@@ -171,6 +176,7 @@ if (wikiArticleBody) {
     wrapTableOfContents();
     validateLinks(wikiArticleBody);
 }
+validateExternalLinks(document.body);
 let uploadImagesLabel = document.querySelector(".upload-image");
 let uploadImagesInput = document.querySelector("#input-upload");
 
@@ -187,7 +193,6 @@ uploadedImageDetails?.forEach((detail) => {
     let url = detail.querySelector(".uploaded-image-url");
 
     copyButton?.addEventListener("click", () => {
-        "use strict";
         url.select();
         document.execCommand("copy");
     }, false);
@@ -199,7 +204,6 @@ if (wikiArticleBodyReadOnly) {
     let body = wikiArticleBodyReadOnly.querySelector("#input-body");
 
     copyButton?.addEventListener("click", () => {
-        "use strict";
         body.select();
         document.execCommand("copy");
     }, false);
@@ -207,7 +211,6 @@ if (wikiArticleBodyReadOnly) {
 let wikiArticlePreviewButton = document.querySelector(".preview-article");
 
 wikiArticlePreviewButton?.addEventListener("click", (event) => {
-    "use strict";
     const previewDialog = document.querySelector(".preview");
     const wikiArticleBodyPreview = document.querySelector(".wiki-article-body-preview");
 
